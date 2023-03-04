@@ -1085,7 +1085,7 @@ Creates and returns a new event for a group specified by its id
     }
     ```
 
-### Add an Image to a Event based on the Event's id
+### Add an Image to an Event based on the Event's id
 
 Create and return a new image for an event specified by id.
 
