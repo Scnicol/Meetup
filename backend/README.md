@@ -1,5 +1,9 @@
 # Meetup Clone
 
+# Schema
+
+![Meetup Schema](Meetup.png)
+
 ## API Documentation
 
 ## USER AUTHENTICATION/AUTHORIZATION
