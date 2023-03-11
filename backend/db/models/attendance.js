@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendance.init({
-    status: DataTypes.ENUM,
+    status: DataTypes.ENUM('Member', 'Waitlist', 'Pending'),
     userId: DataTypes.INTEGER,
     eventId: DataTypes.INTEGER
   }, {
