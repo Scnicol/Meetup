@@ -25,7 +25,7 @@ module.exports = {
         venueId: 2,
         name: 'IScream at gaming',
         description: 'Scary game night! Pick out your favorite icecream place and log on with us as we scream with our icecream!!',
-        type: 'In Person',
+        type: 'Online',
         capacity: 8,
         price: 0,
         startDate: (2023, 9, 15),
