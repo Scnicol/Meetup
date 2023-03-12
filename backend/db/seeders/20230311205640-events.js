@@ -17,8 +17,8 @@ module.exports = {
         type: 'In Person',
         capacity: 12,
         price: 5,
-        startDate: (2023, 8, 14),
-        endDate: (2023, 8, 14),
+        startDate: '2023-14-08 00:00:00',
+        endDate: '2023-14-08 00:00:00',
       },
       {
         groupId: 2,
@@ -27,9 +27,9 @@ module.exports = {
         description: 'Scary game night! Pick out your favorite icecream place and log on with us as we scream with our icecream!!',
         type: 'Online',
         capacity: 8,
-        price: 0,
-        startDate: (2023, 9, 15),
-        endDate: (2023, 9, 15),
+        price: 1,
+        startDate: '2023-15-09 00:00:00',
+        endDate: '2023-15-09 00:00:00',
       },
     ], {});
   },

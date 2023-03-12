@@ -16,7 +16,9 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       groupId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {model: 'Groups'},
       },
       createdAt: {
         allowNull: false,

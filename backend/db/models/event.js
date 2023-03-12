@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.ENUM('Online', 'In Person'),
     capacity: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    startDate: DataTypes.TIME,
-    endDate: DataTypes.TIME
+    startDate: DataTypes.DATE,
+    endDate: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Event',
