@@ -10,15 +10,23 @@ module.exports = {
     options.tableName = 'Attendances';
     return queryInterface.bulkInsert(options, [
       {
+        userId: 1,
+        eventId: 1,
         status: 'Member',
       },
       {
+        userId: 2,
+        eventId: 2,
         status: 'Waitlist',
       },
       {
+        userId: 3,
+        eventId: 1,
         status: 'Pending',
       },
       {
+        userId: 3,
+        eventId: 2,
         status: 'Member',
       },
 
