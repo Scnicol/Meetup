@@ -1,5 +1,10 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Attendances', {
@@ -12,16 +17,6 @@ module.exports = {
       status: {
         type: Sequelize.ENUM('Member', 'Waitlist', 'Pending'),
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        //references: {model: 'Users'},
-        //onDelete: 'cascade',
-      },
-      eventId: {
-        type: Sequelize.INTEGER,
-        //references: {model: 'Events'},
-        //onDelete: 'cascade',
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -32,7 +27,7 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Attendances');
