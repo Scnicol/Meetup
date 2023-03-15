@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Group.hasMany(models.GroupImage, {foreignKey: 'groupId'});
       Group.hasMany(models.Venue, {foreignKey: 'groupId'});
-      Group.belongsToMany(models.User, {through: models.Membership});
+      Group.belongsToMany(models.User, {through: models.Membership, foreignKey: "groupId", otherKey: "userId"});
       Group.hasMany(models.Event, {foreignKey: 'groupId'});
       Group.belongsTo(models.User, {foreignKey: 'organizerId'}); //not sure how this works ask in class
     }
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     organizerId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     about: DataTypes.STRING,
-    type: DataTypes.ENUM('Online', 'In Person'),
+    type: DataTypes.ENUM('Online', 'In person'),
     private: DataTypes.BOOLEAN,
     city: DataTypes.STRING,
     state: DataTypes.STRING

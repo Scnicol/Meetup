@@ -90,7 +90,7 @@ module.exports = {
     await queryInterface.removeColumn(options, 'userId');
     options.tableName = "Memberships";
     await queryInterface.removeColumn(options, 'groupId');
-    options.tableName = "Venues'";
+    options.tableName = "Venues";
     await queryInterface.removeColumn(options, 'groupId');
     options.tableName = "Events";
     await queryInterface.removeColumn(options, 'groupId');

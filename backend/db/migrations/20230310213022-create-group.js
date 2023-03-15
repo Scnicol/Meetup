@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       type: {
-        type: Sequelize.ENUM('Online', 'In Person')
+        type: Sequelize.ENUM('Online', 'In person')
       },
       private: {
         type: Sequelize.BOOLEAN

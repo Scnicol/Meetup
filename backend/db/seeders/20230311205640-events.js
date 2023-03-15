@@ -17,8 +17,8 @@ module.exports = {
         type: 'In Person',
         capacity: 12,
         price: 5,
-        startDate: '2023-14-08 00:00:00',
-        endDate: '2023-14-08 00:00:00',
+        startDate: '2023-08-14 00:00:00',
+        endDate: '2023-08-14 00:00:00',
       },
       {
         groupId: 2,
@@ -28,8 +28,8 @@ module.exports = {
         type: 'Online',
         capacity: 8,
         price: 1,
-        startDate: '2023-15-09 00:00:00',
-        endDate: '2023-15-09 00:00:00',
+        startDate: '2023-09-15 00:00:00',
+        endDate: '2023-09-15 00:00:00',
       },
     ], {});
   },

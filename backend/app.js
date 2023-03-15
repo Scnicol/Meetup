@@ -43,6 +43,7 @@ if (!isProduction) {
     })
   );
 
+  //setting up the routes for the routes file
   const routes = require('./routes');
   app.use(routes);
 

@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     venueId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    type: DataTypes.ENUM('Online', 'In Person'),
+    type: DataTypes.ENUM('Online', 'In person'),
     capacity: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     startDate: DataTypes.DATE,
