@@ -1,6 +1,6 @@
 const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, User, GroupImage } = require('../../db/models');
+const { Group, User, GroupImage, Venue } = require('../../db/models');
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -89,6 +89,21 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json(currUserGroups);
 });
 
+//Get All Venues for a Group specified by it id
+router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+
+    const groupVenues = await Group.findByPk(groupId, {
+        attributes: [],
+        include: [
+            {
+                model: Venue, as: "Venues",
+                attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng' ],
+        }
+        ]
+    })
+    res.json(groupVenues);
+});
 //Get details of a Group specified by its id
 router.get('/:groupId', async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
