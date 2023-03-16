@@ -14,7 +14,7 @@ module.exports = {
         organizerId: 1,
         name: 'Cereal Killers',
         about: 'Do you love killing cereal? hear it scream as you chomp on it? well look no further!',
-        type: 'In Person',
+        type: 'In person',
         private: true,
         city:'Albany',
         state: 'CA',
