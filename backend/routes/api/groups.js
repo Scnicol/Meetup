@@ -8,6 +8,32 @@ const sequelize = require('sequelize');
 const { Op } = require("sequelize");
 const group = require('../../db/models/group');
 
+//Create a new Venue for a Group specified by its id
+router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+    const {address, city, state, lat, lng} = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+    
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    const groupVenue = await Venue.create({
+        groupId,
+        address,
+        city,
+        state,
+        lat,
+        lng,
+    })
+
+    res.json(groupVenue);
+});
+
 //Add an Image to a Group based on the Group's id
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     let groupId = parseInt(req.params.groupId);
@@ -110,6 +136,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
     }
     res.json(groupVenues);
 });
+
 //Get details of a Group specified by its id
 router.get('/:groupId', async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
