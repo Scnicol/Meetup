@@ -102,6 +102,12 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
         }
         ]
     })
+
+    if (!groupVenues) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
     res.json(groupVenues);
 });
 //Get details of a Group specified by its id
