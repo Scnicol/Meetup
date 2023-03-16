@@ -15,17 +15,55 @@ module.exports = (sequelize, DataTypes) => {
       Group.hasMany(models.Venue, {foreignKey: 'groupId'});
       Group.belongsToMany(models.User, {through: models.Membership, foreignKey: "groupId", otherKey: "userId"});
       Group.hasMany(models.Event, {foreignKey: 'groupId'});
-      Group.belongsTo(models.User, {foreignKey: 'organizerId'}); //not sure how this works ask in class
+      Group.belongsTo(models.User, {foreignKey: 'organizerId'});
     }
   }
   Group.init({
     organizerId: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    about: DataTypes.STRING,
-    type: DataTypes.ENUM('Online', 'In person'),
-    private: DataTypes.BOOLEAN,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        isLessThanSixtyOne(value) {
+          let string = value.toString();
+          if (string.length > 60) {
+            throw new Error ('Name must be 60 characters or less')
+          }
+        }
+      }
+    },
+    about: {
+      type: DataTypes.STRING,
+      validate: {
+        isMoreThanFifty(value) {
+          let string = value.toString();
+          if (string.length < 50) {
+            throw new Error ('About must be 50 characters or more')
+          }
+        }
+      }
+    },
+    type: {
+      type: DataTypes.ENUM('Online', 'In person'),
+      validate: {
+        incorrectType(value) {
+          let string = value.toString();
+          if (string !== 'Online' && string !== 'In person') {
+            throw new Error ('Type must be "Online" or "In person"')
+          }
+        }
+      }
+    },
+    private: {
+      type: DataTypes.BOOLEAN,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
     sequelize,
     modelName: 'Group',
