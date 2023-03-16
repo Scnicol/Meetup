@@ -30,16 +30,24 @@ router.post('/', requireAuth, async (req, res, next) => {
 
 //Get all groups, include: numMembers, preview
 router.get('/', async (req, res, next) => {
-    const groups = await Group.findAll({});
-    const users = await User.findAll({});
-
+    const groups = await Group.findAll({
+        attributes: {
+            //include: [[sequelize.fn("COUNT", sequelize.col("Users.id")), "numMembers"]],
+            // where: {
+            //     status:
+            // }
+        },
+        include: {
+            model: User,
+            //attributes: [id]
+        }
+    });
     let count = 1;
-
-    console.log(groups.length)
     for (let i = 0; i < groups.length; i++) {
-        let currGroup = groups[i];
-        console.log(currGroup.id)
+        //console.log(currGroup.Users.length);
+        groups[i].numMembers = groups[i].Users.length;
     }
+    //console.log(groups[0].Users)
 
     res.json(groups);
 });

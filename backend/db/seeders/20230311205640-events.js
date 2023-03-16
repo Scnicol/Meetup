@@ -14,7 +14,7 @@ module.exports = {
         venueId: 1,
         name: 'Krushing Kellogs',
         description: 'Come meet up while we kill many different types of Kellogs cereal!',
-        type: 'In Person',
+        type: 'In person',
         capacity: 12,
         price: 5,
         startDate: '2023-08-14 00:00:00',
