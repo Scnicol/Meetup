@@ -30,6 +30,34 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
     res.json({newImage})
 })
 
+//Get detail of an Event specified by it id
+router.get('/:eventId', async (req, res, next) => {
+    const eventId = parseInt(req.params.eventId);
+
+
+
+    const event = await Event.findByPk(eventId, {
+        attributes: {exclude: ['createdAt', 'updatedAt']},
+        include: [
+            {model: User},
+            {model: Group, attributes: {exclude: ['createdAt', 'updatedAt', 'organizerId']}},
+            {model: Venue, attributes: {exclude: ['createdAt', 'updatedAt', 'groupId']}},
+            {model: EventImage, as: 'EventImages', attributes: {exclude: ['createdAt', 'updatedAt', 'eventId']}},
+        ],
+    });
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    event.dataValues.numAttending = event.Users.length;
+    delete event.dataValues.Users
+
+    res.json(event);
+});
+
 //Get All Events
 router.get('/', async (req, res, next) => {
     const events = await Event.findAll()
