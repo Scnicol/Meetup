@@ -1,6 +1,6 @@
 const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, User, GroupImage, Venue } = require('../../db/models');
+const { Group, User, GroupImage, Venue, Event } = require('../../db/models');
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -8,14 +8,42 @@ const sequelize = require('sequelize');
 const { Op } = require("sequelize");
 const group = require('../../db/models/group');
 
-//Create a new Venue for a Group specified by its id
-router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+//Create an Event for a Group specified by its id
+router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
-    const {address, city, state, lat, lng} = req.body;
+    const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
 
     const group = await Group.findByPk(groupId);
 
-    
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    const groupEvent = await Event.create({
+        groupId,
+        venueId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate,
+    })
+
+    res.json(groupEvent);
+})
+
+//Create a new Venue for a Group specified by its id
+router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+    const { address, city, state, lat, lng} = req.body;
+
+    const group = await Group.findByPk(groupId);
+
+
     if (!group) {
         const err = new Error("Group couldn't be found");
         err.status = 404;
