@@ -27,12 +27,16 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
     delete newImage.dataValues.updatedAt
     delete newImage.dataValues.createdAt
 
-    res.json({ newImage})
+    res.json({newImage})
 })
 
+//Get All Events
+router.get('/', async (req, res, next) => {
+    const events = await Event.findAll()
+    const eventsArray = {Events: events};
 
-
-
+    res.json(eventsArray);
+});
 
 
 
