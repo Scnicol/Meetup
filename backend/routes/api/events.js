@@ -28,9 +28,45 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
     delete newImage.dataValues.createdAt
 
     res.json({newImage})
-})
+});
 
-//Get detail of an Event specified by it id
+//Edit an Event specified by its id
+router.put('/:eventId', requireAuth, async (req, res, next) => {
+    const eventId = parseInt(req.params.eventId);
+    const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
+
+    const venue = await Venue.findByPk(venueId);
+    if (!venue) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    const event = await Event.findByPk(eventId);
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    event.set({
+        venueId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate,
+    });
+
+    delete event.dataValues.createdAt;
+    delete event.dataValues.updatedAt;
+
+    res.json(event);
+});
+
+//Get details of an Event specified by its id
 router.get('/:eventId', async (req, res, next) => {
     const eventId = parseInt(req.params.eventId);
 
