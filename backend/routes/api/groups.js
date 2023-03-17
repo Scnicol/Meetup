@@ -130,6 +130,25 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
     res.json(group);
 });
 
+//Get All Events of a Group specified by its id
+router.get('/:groupId/events', async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+
+    let group = await Group.findByPk(groupId, {
+        attributes: [],
+        include: {model: Event, as: "Events"}
+    });
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    res.json(group);
+
+});
+
 //Get all Groups by the Current User
 router.get('/current', requireAuth, async (req, res, next) => {
     const currUserId = req.user.id;
