@@ -162,6 +162,17 @@ router.post('/', requireAuth, async (req, res, next) => {
     res.status(201).json(newGroup);
 });
 
+//Change the status of a membership for a group specified by id
+router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+    const {memberId, status} = req.body;
+
+    const member = Membership.findByPk(memberId);
+
+    res.json(member);
+
+});
+
 //Edit a Group, updates and returns an existing group
 router.put('/:groupId', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
