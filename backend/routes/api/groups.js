@@ -1,6 +1,6 @@
 const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, User, GroupImage, Venue, Event } = require('../../db/models');
+const { Group, User, GroupImage, Venue, Event, Membership } = require('../../db/models');
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -8,10 +8,67 @@ const sequelize = require('sequelize');
 const { Op } = require("sequelize");
 const group = require('../../db/models/group');
 
+//Request a new membership for a group specified by id.
+router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+    const userId = req.user.id;
+
+    const group = await Group.findByPk(groupId, {
+        attributes: [],
+        include: [
+            { model: Membership }
+        ]
+    });
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    const findMembership = await Membership.findOne({
+        where: {
+            userId,
+            groupId
+        }
+    });
+
+    if (!findMembership) {
+        await Membership.create({
+            userId,
+            groupId,
+            status: 'pending'
+        });
+
+        const foundMembership = await Membership.findOne({
+            attributes: ['id', 'status'],
+            where: {
+                userId,
+                groupId
+            }
+        })
+
+        const newMemberPending = { memberId: foundMembership.id, status: 'pending' }
+
+        return res.json(newMemberPending);
+
+    }
+    if (findMembership.dataValues.status === 'pending') {
+        const err = new Error("Membership has already been requested");
+        err.status = 400;
+        return next(err)
+    }
+    if (findMembership.dataValues.status === 'member') {
+        const err = new Error("User is already a member of the group");
+        err.status = 400;
+        return next(err)
+    }
+});
+
 //Create an Event for a Group specified by its id
 router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
-    const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body;
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
 
     const group = await Group.findByPk(groupId);
 
@@ -39,7 +96,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
 //Create a new Venue for a Group specified by its id
 router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
-    const { address, city, state, lat, lng} = req.body;
+    const { address, city, state, lat, lng } = req.body;
 
     const group = await Group.findByPk(groupId);
 
@@ -65,7 +122,7 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
 //Add an Image to a Group based on the Group's id
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     let groupId = parseInt(req.params.groupId);
-    const {url, preview} = req.body;
+    const { url, preview } = req.body;
 
     const currGroup = await Group.findByPk(groupId);
 
@@ -81,7 +138,7 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         preview,
     });
 
-    res.json({ message: "Success"})
+    res.json({ message: "Success" })
 });
 
 //Create a Group
@@ -109,7 +166,7 @@ router.post('/', requireAuth, async (req, res, next) => {
 router.put('/:groupId', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
 
-    const {name, about, type, private, city, state} = req.body;
+    const { name, about, type, private, city, state } = req.body;
 
     let group = await Group.findByPk(groupId);
 
@@ -136,7 +193,7 @@ router.get('/:groupId/events', async (req, res, next) => {
 
     let group = await Group.findByPk(groupId, {
         attributes: [],
-        include: {model: Event, as: "Events"}
+        include: { model: Event, as: "Events" }
     });
 
     if (!group) {
@@ -156,7 +213,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const currUserGroups = await User.findByPk(currUserId, {
         attributes: [],
         include: [
-            {model: Group, as: "Groups"}
+            { model: Group, as: "Groups" }
         ]
     })
     res.json(currUserGroups);
@@ -171,8 +228,8 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
         include: [
             {
                 model: Venue, as: "Venues",
-                attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng' ],
-        }
+                attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
+            }
         ]
     })
 
@@ -188,7 +245,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
 router.get('/:groupId', async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
 
-    const currGroup =await Group.findByPk(groupId, {
+    const currGroup = await Group.findByPk(groupId, {
         attributes: {
         },
         include: [
