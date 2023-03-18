@@ -159,6 +159,8 @@ router.post('/', requireAuth, async (req, res, next) => {
         state,
     });
 
+
+
     res.status(201).json(newGroup);
 });
 
@@ -166,8 +168,20 @@ router.post('/', requireAuth, async (req, res, next) => {
 router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
     const {memberId, status} = req.body;
+    console.log(memberId, '----------------')
 
-    const member = Membership.findByPk(memberId);
+    const member = await Membership.findByPk(memberId, {
+        attributes: ['id', 'groupId', 'status']
+    });
+
+    member.set({
+        groupId,
+        status,
+    });
+    
+    member.dataValues.memberId = memberId;
+    delete member.dataValues.createdAt;
+    delete member.dataValues.updatedAt;
 
     res.json(member);
 
