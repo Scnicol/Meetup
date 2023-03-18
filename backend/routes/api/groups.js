@@ -46,7 +46,8 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
                 userId,
                 groupId
             }
-        })
+        });
+
 
         const newMemberPending = { memberId: foundMembership.id, status: 'pending' }
 
@@ -168,17 +169,41 @@ router.post('/', requireAuth, async (req, res, next) => {
 router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
     const {memberId, status} = req.body;
-    console.log(memberId, '----------------')
+
+    const user = User.findOne({
+        include: {model: Membership},
+        where: {
+            id: memberId
+        }
+    })
+
+    if (!user) {
+        const err = new Error("User couldn't be found");
+        err.status = 400;
+        return next(err)
+    }
 
     const member = await Membership.findByPk(memberId, {
         attributes: ['id', 'groupId', 'status']
     });
 
+    if (!member) {
+        const err = new Error("Membership between the user and the group does not exist");
+        err.status = 400;
+        return next(err)
+    }
+
+    if (status === 'pending') {
+        const err = new Error("Cannot change a membership status to pending");
+        err.status = 400;
+        return next(err)
+    }
+
     member.set({
         groupId,
         status,
     });
-    
+
     member.dataValues.memberId = memberId;
     delete member.dataValues.createdAt;
     delete member.dataValues.updatedAt;
