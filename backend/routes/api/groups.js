@@ -48,8 +48,9 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
             }
         });
 
+        console.log({ id: userId })
 
-        const newMemberPending = { memberId: foundMembership.id, status: 'pending' }
+        const newMemberPending = { id: userId, status: 'pending' }
 
         return res.json(newMemberPending);
 
@@ -168,14 +169,18 @@ router.post('/', requireAuth, async (req, res, next) => {
 //Change the status of a membership for a group specified by id
 router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
-    const {memberId, status} = req.body;
+    const { memberId, status } = req.body;
 
-    const user = User.findOne({
-        include: {model: Membership},
+    console.log(memberId, '-----------------')
+
+    const user = await User.findOne({
+        include: { model: Membership },
         where: {
             id: memberId
         }
     })
+
+    console.log(user, '-----------')
 
     if (!user) {
         const err = new Error("User couldn't be found");
@@ -183,9 +188,13 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         return next(err)
     }
 
-    const member = await Membership.findByPk(memberId, {
-        attributes: ['id', 'groupId', 'status']
+    const member = await Membership.findOne({
+        attributes: ['id', 'groupId', 'status'],
+        // where: [
+        //     {userId: memberId}
+        // ]
     });
+    console.log(member, memberId);
 
     if (!member) {
         const err = new Error("Membership between the user and the group does not exist");
@@ -235,6 +244,88 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
     })
 
     res.json(group);
+});
+
+//Get all Members of a Group specified by its id
+router.get('/:groupId/members', async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+    const user = req.user
+
+    const group = await Group.findByPk(groupId, {
+        attributes: ['organizerId'],
+        include: [
+            {
+                model: User, as: 'Members',
+                attributes: ['id', 'firstName', 'lastName', 'username']
+            }
+        ]
+    });
+    //error handler for not being able to find the group
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    const member = await Membership.findAll({
+        where: {
+            status: 'co-host',
+            userId: user.id
+        }
+    })
+
+    const pendingMembers = await Membership.findAll({
+        // attributes: ['status'],
+        include: { model: User, as: 'Members' },
+        where: {
+            groupId,
+            [Op.not]: [
+                { status: 'pending' }
+            ]
+        }
+    }, { raw: true });
+
+
+
+    console.log(member, "pending members ------------")
+
+    if (group.dataValues.organizerId === user.id || member.dataValues.status === 'co-host') {
+
+        const nonPendingMembers = await Group.findByPk(groupId, {
+            attributes: [],
+            include: {
+                model: User, as: 'Members',
+                attributes: ['id', 'firstName', 'lastName', 'username'],
+                // where: {
+
+                // }
+            },
+        });
+
+        for (let i = 0; i < nonPendingMembers.dataValues.Members.length; i++) {
+            console.log(nonPendingMembers.dataValues.Members[i].Membership.status);
+            console.log('inside the if conditional')
+            delete nonPendingMembers.dataValues.Members[i].Membership.dataValues.userId
+            delete nonPendingMembers.dataValues.Members[i].Membership.dataValues.groupId
+            delete nonPendingMembers.dataValues.Members[i].Membership.dataValues.createdAt
+            delete nonPendingMembers.dataValues.Members[i].Membership.dataValues.updatedAt
+        }
+
+
+        res.json(nonPendingMembers);
+    } else {
+
+        let members = {
+            Members: pendingMembers.map(obj => {
+                let user = obj.Members
+                user.Membership = obj.status
+                return user;
+            })
+        }
+        res.json(members);
+    }
+
+
 });
 
 //Get All Events of a Group specified by its id
@@ -308,7 +399,7 @@ router.get('/:groupId', async (req, res, next) => {
     });
 
     // should the user be considered a member or not? This will change how I create groups
-    currGroup.dataValues.numMembers = currGroup.Users.length;
+    currGroup.dataValues.numMembers = currGroup.User.length;
     delete currGroup.dataValues.Users
 
 
@@ -330,10 +421,10 @@ router.get('/', async (req, res, next) => {
     });
 
     for (let i = 0; i < groups.length; i++) {
-        groups[i].dataValues.numMembers = groups[i].Users.length;
+        groups[i].dataValues.numMembers = groups[i].User.length;
         delete groups[i].dataValues.Users
     }
-    console.log(groups)
+
 
     res.json(groups);
 });
