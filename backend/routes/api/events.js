@@ -81,7 +81,7 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
     delete newImage.dataValues.updatedAt
     delete newImage.dataValues.createdAt
 
-    res.json({ newImage })
+    res.json( newImage )
 });
 
 //Change the status of an attendance for an event specified by id.
@@ -289,7 +289,7 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     const event = await Event.findByPk(eventId)
     const userId = member.dataValues.userId
-    
+
 
     if (!event) {
         const err = new Error("Event couldn't be found");
@@ -314,8 +314,29 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
     res.json({
         message: 'Successfully deleted attendance from event'
     });
-
 })
+
+//Delete an Event specified by its id
+router.delete('/:eventId', requireAuth, async (req, res, next) => {
+    const eventId = parseInt(req.params.eventId);
+
+    const event = await Event.findByPk(eventId, {
+        include: {
+            model: Group
+        }
+    })
+
+    if (!event) {
+        const err = new Error("Event couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    await event.destroy()
+    res.json({
+        message: "Successfully deleted"
+    })
+});
 
 
 

@@ -12,7 +12,9 @@ const venuesRouter = require('./venues.js');
 //adding the eventsRouter to the index
 const eventsRouter = require('./events.js');
 //adding the group-imageRouter to the index
-const groupImageRouter = require('./group-images.js')
+const groupImageRouter = require('./group-images.js');
+//adding the event-imageRouter to the index
+const eventImageRouter = require('./event-images.js');
 
 
 const { restoreUser } = require("../../utils/auth.js");
@@ -29,6 +31,8 @@ router.use('/venues', venuesRouter);
 router.use('/events', eventsRouter);
 //setting up the router for group-images
 router.use('/group-images', groupImageRouter);
+//setting up the router for event-images
+router.use('/event-images', eventImageRouter);
 
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });

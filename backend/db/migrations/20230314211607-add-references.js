@@ -13,6 +13,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {model: 'Users'},
+      onDelete: 'cascade',
     });
     //adding the userId to the Memberships table
     options.tableName = "Memberships";
@@ -36,6 +37,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {model: 'Groups'},
+      onDelete: 'cascade',
     });
     //adding the groupId to the Events table
     options.tableName = "Events";
@@ -43,6 +45,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {model: 'Groups'},
+      onDelete: 'cascade',
     });
     //adding the venueId to the Events table
     options.tableName = "Events";
@@ -50,6 +53,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {model: 'Venues'},
+      onDelete: 'cascade',
     });
     //adding the eventId to the EventImages table
     options.tableName = "EventImages";
@@ -57,6 +61,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {model: 'Events'},
+      onDelete: 'cascade',
     });
     //adding userId to the Attendances table
     options.tableName = "Attendances";
@@ -80,6 +85,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {model: 'Groups'},
+      onDelete: 'cascade',
     }, options);
   },
 
