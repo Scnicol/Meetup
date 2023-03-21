@@ -12,22 +12,22 @@ module.exports = {
       {
         userId: 1,
         eventId: 1,
-        status: 'Member',
+        status: 'attending',
       },
       {
         userId: 2,
         eventId: 2,
-        status: 'Waitlist',
+        status: 'waitlist',
       },
       {
         userId: 3,
         eventId: 1,
-        status: 'Pending',
+        status: 'pending',
       },
       {
         userId: 3,
         eventId: 2,
-        status: 'Member',
+        status: 'attending',
       },
 
     ], {});

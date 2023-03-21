@@ -171,7 +171,13 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
     const { memberId, status } = req.body;
 
-    console.log(memberId, '-----------------')
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 400;
+        return next(err)
+    }
 
     const user = await User.findOne({
         include: { model: Membership },
@@ -179,8 +185,6 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
             id: memberId
         }
     })
-
-    console.log(user, '-----------')
 
     if (!user) {
         const err = new Error("User couldn't be found");
@@ -194,7 +198,6 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         //     {userId: memberId}
         // ]
     });
-    console.log(member, memberId);
 
     if (!member) {
         const err = new Error("Membership between the user and the group does not exist");
@@ -275,7 +278,6 @@ router.get('/:groupId/members', async (req, res, next) => {
     })
 
     const pendingMembers = await Membership.findAll({
-        // attributes: ['status'],
         include: { model: User, as: 'Members' },
         where: {
             groupId,
@@ -285,10 +287,6 @@ router.get('/:groupId/members', async (req, res, next) => {
         }
     }, { raw: true });
 
-
-
-    console.log(member, "pending members ------------")
-
     if (group.dataValues.organizerId === user.id || member.dataValues.status === 'co-host') {
 
         const nonPendingMembers = await Group.findByPk(groupId, {
@@ -296,9 +294,6 @@ router.get('/:groupId/members', async (req, res, next) => {
             include: {
                 model: User, as: 'Members',
                 attributes: ['id', 'firstName', 'lastName', 'username'],
-                // where: {
-
-                // }
             },
         });
 
