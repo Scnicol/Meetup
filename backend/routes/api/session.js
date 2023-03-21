@@ -32,9 +32,9 @@ router.post('/', validateLogin, async (req, res, next) => {
 
       await setTokenCookie(res, user);
 
-      return res.json({
-        user: user
-      });
+      return res.json(
+        user
+      );
     }
   );
 
