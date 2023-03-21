@@ -140,7 +140,11 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
         preview,
     });
 
-    res.json({ message: "Success" })
+    delete newImage.dataValues.updatedAt
+    delete newImage.dataValues.createdAt
+    delete newImage.dataValues.groupId
+
+    res.json(newImage);
 });
 
 //Create a Group
