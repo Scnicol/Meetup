@@ -71,7 +71,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
 router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-
+    console.log(price)
     const group = await Group.findByPk(groupId);
 
     if (!group) {
@@ -79,6 +79,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
         err.status = 404;
         return next(err)
     }
+
 
     const groupEvent = await Event.create({
         groupId,
