@@ -419,9 +419,36 @@ router.get('/', async (req, res, next) => {
         groups[i].dataValues.numMembers = groups[i].User.length;
         delete groups[i].dataValues.Users
     }
-
-
     res.json(groups);
 });
+
+//Delete a membership to a group specified by id
+router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const groupId = parseInt(req.params.groupId);
+    const { memberId } = req.body;
+
+
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+        const err = new Error("Group couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    const member = await Membership.findByPk(memberId);
+
+    if (!member) {
+        const err = new Error("Member couldn't be found");
+        err.status = 404;
+        return next(err)
+    }
+
+    await member.destroy();
+    res.json({
+        message: 'Successfully deleted member from the group'
+    });
+
+})
 
 module.exports = router;

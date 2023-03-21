@@ -286,10 +286,10 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
     const { memberId } = req.body;
 
     const member = await Membership.findByPk(memberId);
-    console.log(member)
+
     const event = await Event.findByPk(eventId)
     const userId = member.dataValues.userId
-    console.log(userId, eventId);
+    
 
     if (!event) {
         const err = new Error("Event couldn't be found");
