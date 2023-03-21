@@ -8,6 +8,8 @@ const sequelize = require('sequelize');
 const { Op } = require("sequelize");
 const groupimage = require('../../db/models/groupimage');
 
+
+//Delete an image from a group by imageId
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const imageId = parseInt(req.params.imageId);
 
