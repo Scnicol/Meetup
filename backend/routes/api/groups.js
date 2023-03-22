@@ -205,9 +205,6 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
 
     const member = await Membership.findOne({
         attributes: ['id', 'groupId', 'status'],
-        // where: [
-        //     {userId: memberId}
-        // ]
     });
 
     if (!member) {
@@ -226,6 +223,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res, next) => {
         groupId,
         status,
     });
+    member.save()
 
     member.dataValues.memberId = memberId;
     delete member.dataValues.createdAt;
@@ -255,7 +253,8 @@ router.put('/:groupId', requireAuth, async (req, res, next) => {
         private,
         city,
         state,
-    })
+    });
+    group.save();
 
     res.json(group);
 });

@@ -26,6 +26,7 @@ router.put('/:venueId', requireAuth, async (req, res, next) => {
         lat,
         lng
     });
+    venue.save();
 
     res.json(venue);
 });

@@ -105,8 +105,6 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         }
     });
 
-    console.log(attendee, '---', userId, '---', eventId)
-
     if (!attendee) {
         const err = new Error("Attendance between the user and the event does not exist");
         err.status = 400;
@@ -123,6 +121,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
         userId,
         status,
     });
+    attendee.save();
 
     delete attendee.dataValues.createdAt;
     delete attendee.dataValues.updatedAt;
@@ -159,6 +158,7 @@ router.put('/:eventId', requireAuth, async (req, res, next) => {
         startDate,
         endDate,
     });
+    event.save()
 
     delete event.dataValues.createdAt;
     delete event.dataValues.updatedAt;
