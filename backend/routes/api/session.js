@@ -26,11 +26,14 @@ router.post('/', validateLogin, async (req, res, next) => {
         const err = new Error('Login failed');
         err.status = 401;
         err.title = 'Login failed';
-        err.errors = { credential: 'The provided credentials were invalid.' };
+        err.errors = { message: 'Invalid credentials' };
         return next(err);
       }
 
       await setTokenCookie(res, user);
+
+      delete user.dataValues.createdAt
+      delete user.dataValues.updatedAt
 
       return res.json(
         user
@@ -49,7 +52,7 @@ router.delete('/', (_req, res) => {
 router.get('/', restoreUser, (req, res) => {
 
       const { user } = req;
-      console.log(user);
+      
       if (user) {
         return res.json({
           user: user.toSafeObject()

@@ -409,10 +409,12 @@ router.get('/:groupId', async (req, res, next) => {
 //Get all groups, include: numMembers, preview
 router.get('/', async (req, res, next) => {
     const groups = await Group.findAll({
-        attributes: {
-        },
+         attributes: {
+         },
         include: [
-            { model: User },
+            {
+                model: User,
+            },
             {
                 model: GroupImage, as: "GroupImages",
                 attributes: ['id', 'url', 'preview'],
@@ -421,10 +423,28 @@ router.get('/', async (req, res, next) => {
     });
 
     for (let i = 0; i < groups.length; i++) {
-        groups[i].dataValues.numMembers = groups[i].User.length;
-        delete groups[i].dataValues.Users
+        let groupId = groups[i].dataValues.id
+        let membersOfGroup = await Membership.findAll({
+            where: {
+                groupId: groupId
+            }
+        });
+
+        let imagesOfGroup = await GroupImage.findAll({
+            attributes: ['url'],
+            where:  {
+                groupId: groupId,
+                preview: true
+            }
+        })
+
+        groups[i].dataValues.numMembers = membersOfGroup.length
+        groups[i].dataValues.previewImage = imagesOfGroup
+        delete groups[i].dataValues.User
+        delete groups[i].dataValues.GroupImages
+
     }
-    res.json(groups);
+    res.json({Groups: groups});
 });
 
 //Delete a membership to a group specified by id
