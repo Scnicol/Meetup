@@ -40,7 +40,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
             status: 'pending',
         });
 
-        const newStatusPending = { id: userId, status: 'pending' }
+        const newStatusPending = { userId: userId, status: 'pending' }
         return res.json(newStatusPending);
     }
 
@@ -98,6 +98,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res, next) => {
     }
 
     const attendee = await Attendance.findOne({
+        attributes: ['id', 'eventId', 'userId', 'status'],
         where: {
             userId,
             eventId,
@@ -253,7 +254,7 @@ router.get('/:eventId', async (req, res, next) => {
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: [
             { model: User, as: 'Attendees' },
-            { model: Group, attributes: { exclude: ['createdAt', 'updatedAt', 'organizerId'] } },
+            { model: Group, attributes: { exclude: ['createdAt', 'updatedAt', 'organizerId', 'about', 'type'] } },
             { model: Venue, attributes: { exclude: ['createdAt', 'updatedAt', 'groupId'] } },
             { model: EventImage, as: 'EventImages', attributes: { exclude: ['createdAt', 'updatedAt', 'eventId'] } },
         ],
@@ -273,7 +274,46 @@ router.get('/:eventId', async (req, res, next) => {
 
 //Get All Events
 router.get('/', async (req, res, next) => {
-    const events = await Event.findAll()
+    const events = await Event.findAll({
+        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate']
+    })
+
+    for (let i = 0; i < events.length; i++) {
+
+    let groupId = events[i].dataValues.groupId;
+    const members = await Membership.findAll({
+        where: {
+            groupId
+        }
+    })
+
+    let eventId = events[i].dataValues.id
+
+    let images = await EventImage.findAll({
+        attributes: ['url'],
+        where: {
+            id: eventId
+        }
+    })
+
+    let group = await Group.findByPk(groupId, {
+        attributes: ['id', 'name', 'city', 'state']
+    });
+
+    let venueId = events[i].dataValues.venueId
+    let venue = await Venue.findOne({
+        attributes: ['id', 'city', 'state'],
+        where: {
+            id: venueId
+        }
+    })
+
+    events[i].dataValues.numAttending = members.length
+    events[i].dataValues.previewImage = images
+    events[i].dataValues.Group = group
+    events[i].dataValues.Venue = venue
+    }
+
     const eventsArray = { Events: events };
 
     res.json(eventsArray);

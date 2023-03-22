@@ -1,6 +1,6 @@
 const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, User, GroupImage, Venue, Event, Membership } = require('../../db/models');
+const { Group, User, GroupImage, Venue, Event, Membership, EventImage } = require('../../db/models');
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -33,24 +33,24 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
         }
     });
 
+
+
     if (!findMembership) {
-        await Membership.create({
+        const newMember = await Membership.create({
             userId,
             groupId,
             status: 'pending'
         });
 
         const foundMembership = await Membership.findOne({
-            attributes: ['id', 'status'],
+            attributes: ['id'],
             where: {
                 userId,
                 groupId
             }
-        });
+        })
 
-        console.log({ id: userId })
-
-        const newMemberPending = { id: userId, status: 'pending' }
+        const newMemberPending = { memberId: foundMembership.dataValues.id, status: 'pending' }
 
         return res.json(newMemberPending);
 
@@ -91,7 +91,10 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
         description,
         startDate,
         endDate,
-    })
+    });
+
+    delete groupEvent.dataValues.updatedAt
+    delete groupEvent.dataValues.createdAt
 
     res.json(groupEvent);
 })
@@ -118,6 +121,9 @@ router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
         lat,
         lng,
     })
+
+    delete groupVenue.dataValues.updatedAt
+    delete groupVenue.dataValues.createdAt
 
     res.json(groupVenue);
 });
@@ -332,10 +338,14 @@ router.get('/:groupId/members', async (req, res, next) => {
 router.get('/:groupId/events', async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
 
-    let group = await Group.findByPk(groupId, {
-        attributes: [],
-        include: { model: Event, as: "Events" }
+    let events = await Event.findAll({
+        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate'],
+        where: {
+            groupId
+        }
     });
+
+    const group = await Group.findByPk(groupId);
 
     if (!group) {
         const err = new Error("Group couldn't be found");
@@ -343,7 +353,44 @@ router.get('/:groupId/events', async (req, res, next) => {
         return next(err)
     }
 
-    res.json(group);
+    for (let i = 0; i < events.length; i++) {
+
+        let groupId = events[i].dataValues.groupId;
+        const members = await Membership.findAll({
+            where: {
+                groupId
+            }
+        })
+
+        let eventId = events[i].dataValues.id
+
+        let images = await EventImage.findAll({
+            attributes: ['url'],
+            where: {
+                id: eventId
+            }
+        })
+
+        let group = await Group.findByPk(groupId, {
+            attributes: ['id', 'name', 'city', 'state']
+        });
+
+        let venueId = events[i].dataValues.venueId
+        let venue = await Venue.findOne({
+            attributes: ['id', 'city', 'state'],
+            where: {
+                id: venueId
+            }
+        })
+
+        events[i].dataValues.numAttending = members.length
+        events[i].dataValues.previewImage = images
+        events[i].dataValues.Group = group
+        events[i].dataValues.Venue = venue
+        }
+
+
+    res.json({Events: events});
 
 });
 
@@ -356,7 +403,31 @@ router.get('/current', requireAuth, async (req, res, next) => {
         include: [
             { model: Group, as: "Groups" }
         ]
-    })
+    });
+
+    // console.log(currUserGroups.dataValues.Groups[0].dataValues);
+
+    for (let i = 0; i < currUserGroups.dataValues.Groups.length; i++) {
+        let groupId = currUserGroups.dataValues.Groups[i].dataValues.id
+        let membersOfGroup = await Membership.findAll({
+            where: {
+                groupId: groupId
+            }
+        });
+
+        let imagesOfGroup = await GroupImage.findAll({
+            attributes: ['url'],
+            where:  {
+                groupId: groupId,
+                preview: true
+            }
+        })
+
+        currUserGroups.dataValues.Groups[i].dataValues.numMembers = membersOfGroup.length
+        currUserGroups.dataValues.Groups[i].dataValues.previewImage = imagesOfGroup
+
+    }
+
     res.json(currUserGroups);
 });
 
@@ -398,10 +469,15 @@ router.get('/:groupId', async (req, res, next) => {
         ]
     });
 
-    // should the user be considered a member or not? This will change how I create groups
-    currGroup.dataValues.numMembers = currGroup.User.length;
-    delete currGroup.dataValues.Users
+    let membersOfGroup = await Membership.findAll({
+        where: {
+            groupId: groupId
+        }
+    });
 
+    // should the user be considered a member or not? This will change how I create groups
+    currGroup.dataValues.numMembers = membersOfGroup.length;
+    delete currGroup.dataValues.User
 
     res.json(currGroup);
 });
