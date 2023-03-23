@@ -172,8 +172,6 @@ router.post('/', requireAuth, async (req, res, next) => {
         state,
     });
 
-
-
     res.status(201).json(newGroup);
 });
 

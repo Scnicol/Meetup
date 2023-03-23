@@ -64,7 +64,7 @@ app.use((err, _req, res, next) => {
       for (let error of err.errors) {
         errors[error.path] = error.message;
       }
-      err.title = 'Validation error';
+      err.message = 'Validation error';
       err.errors = errors;
     }
     next(err);
