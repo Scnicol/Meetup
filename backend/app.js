@@ -43,7 +43,7 @@ if (!isProduction) {
     })
   );
 
-  //setting up the routes for the routes file
+  // //setting up the routes for the routes file
   const routes = require('./routes');
   app.use(routes);
 
@@ -57,7 +57,7 @@ app.use((_req, _res, next) => {
   });
 
 // Process sequelize errors
-app.use((err, _req, _res, next) => {
+app.use((err, _req, res, next) => {
     // check if error is a Sequelize error:
     if (err instanceof ValidationError) {
       let errors = {};
@@ -77,8 +77,8 @@ app.use((err, _req, res, _next) => {
     res.json({
       // title: err.title || 'Server Error',
       message: err.message,
-      statusCode: err.status
-      // errors: err.errors,
+      statusCode: err.status,
+      errors: err.errors,
       // stack: isProduction ? null : err.stack
     });
   });
