@@ -474,8 +474,25 @@ router.get('/:groupId', async (req, res, next) => {
         }
     });
 
+    let organizerId = currGroup.dataValues.organizerId;
+    let organizer = await User.findOne({
+        attributes: ['id', 'firstName', 'lastName'],
+        where: {
+            id: organizerId
+        }
+    })
+
+    let venues = await Venue.findAll({
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
+        where: {
+            groupId
+        }
+    })
+
     // should the user be considered a member or not? This will change how I create groups
     currGroup.dataValues.numMembers = membersOfGroup.length;
+    currGroup.dataValues.Organizer = organizer;
+    currGroup.dataValues.Venues = venues;
     delete currGroup.dataValues.User
 
     res.json(currGroup);
