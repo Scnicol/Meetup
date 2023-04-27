@@ -271,6 +271,7 @@ router.get('/:groupId/members', async (req, res, next) => {
             }
         ]
     });
+    
     //error handler for not being able to find the group
     if (!group) {
         const err = new Error("Group couldn't be found");

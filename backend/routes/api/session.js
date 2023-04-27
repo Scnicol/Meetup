@@ -19,9 +19,9 @@ const validateLogin = [
 // Log in
 router.post('/', validateLogin, async (req, res, next) => {
       const { credential, password } = req.body;
-
+      //console.log(credential, password, 'backend login router')
       const user = await User.login({ credential, password });
-
+      //console.log(user, 'USER---------BEFORE EDITS')
       if (!user) {
         const err = new Error('Login failed');
         err.status = 401;
@@ -34,7 +34,7 @@ router.post('/', validateLogin, async (req, res, next) => {
 
       delete user.dataValues.createdAt
       delete user.dataValues.updatedAt
-
+      //console.log(user, 'USER---------AFTER EDITS')
       return res.json(
         user
       );
@@ -52,7 +52,7 @@ router.delete('/', (_req, res) => {
 router.get('/', restoreUser, (req, res) => {
 
       const { user } = req;
-      
+
       if (user) {
         return res.json({
           user: user.toSafeObject()
