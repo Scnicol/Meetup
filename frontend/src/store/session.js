@@ -58,7 +58,6 @@ export const login = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
-    console.log(data, 'Inside the signup Thunk')
     dispatch(setUser(data));
     return data;
   };
@@ -81,9 +80,7 @@ const sessionReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
       case SET_USER:
-        //console.log('inside SET_USER', action.payload)
         newState = Object.assign({}, state);
-        //console.log(newState, 'the newState inside SET_USER')
         newState.user = action.payload;
         return newState;
       case REMOVE_USER:
