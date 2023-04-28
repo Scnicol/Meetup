@@ -39,6 +39,30 @@ export const login = (user) => async (dispatch) => {
     return data;
   };
 
+  export const restoreUser = () => async dispatch => {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(setUser(data));
+    return data;
+  };
+
+  export const signup = (user) => async (dispatch) => {
+    const { username, firstName, lastName, email, password } = user;
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(setUser(data));
+    return data;
+  };
+
 //______CREATE_INTITAL_STATE_________
 const initialState = {
     user: null
@@ -49,9 +73,9 @@ const sessionReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
       case SET_USER:
-        console.log('inside SET_USER', action.payload)
+        //console.log('inside SET_USER', action.payload)
         newState = Object.assign({}, state);
-        console.log(newState, 'the newState inside SET_USER')
+        //console.log(newState, 'the newState inside SET_USER')
         newState.user = action.payload;
         return newState;
       case REMOVE_USER:
