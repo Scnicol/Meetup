@@ -8,7 +8,6 @@ const REMOVE_USER = 'session/removeUser';
 //_________ACTIONS_________________
 
 const setUser = (user) => {
-    console.log('inside the setUser action', user)
     return {
       type: SET_USER,
       payload: user,
@@ -33,15 +32,17 @@ export const login = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
+    //console.log(data)
     dispatch(setUser(data));
-    return data;
+    return response;
   };
 
   export const restoreUser = () => async dispatch => {
     const response = await csrfFetch('/api/session');
     const data = await response.json();
-    dispatch(setUser(data));
-    return data;
+    //console.log(data, 'DATA inside the restoreUser Thunk')
+    dispatch(setUser(data.user));
+    return response;
   };
 
   export const signup = (user) => async (dispatch) => {
@@ -57,8 +58,17 @@ export const login = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
+    console.log(data, 'Inside the signup Thunk')
     dispatch(setUser(data));
     return data;
+  };
+
+  export const logout = () => async (dispatch) => {
+    const response = await csrfFetch('/api/session', {
+      method: 'DELETE',
+    });
+    dispatch(removeUser());
+    return response;
   };
 
 //______CREATE_INTITAL_STATE_________
