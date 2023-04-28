@@ -24,7 +24,6 @@ const setUser = (user) => {
 
 //________THUNK_ACTIONS_____________
 export const login = (user) => async (dispatch) => {
-    console.log('inside the Thunk login')
     const { credential, password } = user;
     const response = await csrfFetch('/api/session', {
       method: 'POST',
@@ -34,7 +33,6 @@ export const login = (user) => async (dispatch) => {
       }),
     });
     const data = await response.json();
-    console.log(data, 'DATA--------------------');
     dispatch(setUser(data));
     return data;
   };
