@@ -1,26 +1,28 @@
 import React from 'react';
-import { getGroups } from '../../store/groups';
+import { getEvents } from '../../store/events';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-function Groups() {
+function Events() {
     const dispatch = useDispatch();
     const { groupId } = useParams();
-    const groups = Object.values(useSelector(state => { return state.groups }));
+    const { eventId } = useParams();
+    const events = Object.values(useSelector(state => { return state.events }));
     useEffect(() => {
-        dispatch(getGroups());
+
+        dispatch(getEvents());
     }, [dispatch]);
 
     return (
         <main>
             <ul>
-                {groups.map((group) => (
-                    <li key={group.id}>{group.name}</li>
+                {events.map((event) => (
+                    <li>{event.name}</li>
                 ))}
             </ul>
         </main>
     )
 }
 
-export default Groups;
+export default Events;

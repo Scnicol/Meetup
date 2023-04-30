@@ -5,6 +5,10 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import Groups from "./components/Groups";
+import Events from "./components/Events";
+import CreateGroupForm from "./components/Groups/createGroupForm";
+import UpdateGroupForm from "./components/Groups/updateGroupForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +27,18 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route exact path="/groups">
+            <Groups/>
+          </Route>
+          <Route exact path="/events">
+            <Events/>
+          </Route>
+          <Route exact path="/groups/new">
+            <CreateGroupForm/>
+          </Route>
+          <Route path="/groups/:id">
+            <UpdateGroupForm/>
           </Route>
         </Switch>
       )}
