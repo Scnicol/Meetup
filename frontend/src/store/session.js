@@ -24,6 +24,7 @@ const setUser = (user) => {
 //________THUNK_ACTIONS_____________
 export const login = (user) => async (dispatch) => {
     const { credential, password } = user;
+    console.log(credential, password, '__________LOGIN________')
     const response = await csrfFetch('/api/session', {
       method: 'POST',
       body: JSON.stringify({
@@ -38,7 +39,9 @@ export const login = (user) => async (dispatch) => {
 
   export const restoreUser = () => async dispatch => {
     const response = await csrfFetch('/api/session');
+    // console.log(response, 'response')
     const data = await response.json();
+    // console.log(data, 'Data')
     dispatch(setUser(data.user));
     return response;
   };
