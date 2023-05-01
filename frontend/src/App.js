@@ -9,12 +9,16 @@ import Groups from "./components/Groups";
 import Events from "./components/Events";
 import CreateGroupForm from "./components/Groups/createGroupForm";
 import UpdateGroupForm from "./components/Groups/updateGroupForm";
+import GroupDetail from "./components/Groups/groupDetail";
+import HomePage from "./components/HomePage";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    // dispatch(sessionActions.login({credential: 'Demo-lition', password: 'password'})).then(() => setIsLoaded(true));
+
   }, [dispatch]);
 
   return (
@@ -22,6 +26,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
           <Route path="/login">
             <LoginFormPage />
           </Route>
@@ -29,16 +36,19 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route exact path="/groups">
-            <Groups/>
+            <Groups />
           </Route>
           <Route exact path="/events">
-            <Events/>
+            <Events />
           </Route>
           <Route exact path="/groups/new">
-            <CreateGroupForm/>
+            <CreateGroupForm />
+          </Route>
+          <Route path="/groups/:id/edit">
+            <UpdateGroupForm />
           </Route>
           <Route path="/groups/:id">
-            <UpdateGroupForm/>
+            <GroupDetail />
           </Route>
         </Switch>
       )}

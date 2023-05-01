@@ -5,6 +5,8 @@ import { NavLink, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function Groups() {
+    //Going to add a delete group dispatch here for specific group
+
     const dispatch = useDispatch();
     const { groupId } = useParams();
     const groups = Object.values(useSelector(state => { return state.groups }));
@@ -16,7 +18,11 @@ function Groups() {
         <main>
             <ul>
                 {groups.map((group) => (
-                    <li key={group.id}>{group.name}</li>
+                    <li key={group.id}>Name: {group.name}
+                        <p>
+                            About: {group.about}
+                        </p>
+                    </li>
                 ))}
             </ul>
         </main>

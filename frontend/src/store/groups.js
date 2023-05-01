@@ -4,6 +4,7 @@ const LOAD = 'groups/LOAD'
 const CREATE_GROUP = 'groups/CREATE_GROUP'
 const UPDATE_GROUP = 'groups/UPDATE_GROUP'
 const DELETE_GROUP = 'groups/DELETE_GROUP'
+const GET_GROUP = 'groups/GET_GROUP'
 
 
 //___________ACTIONS_________________
@@ -11,6 +12,11 @@ const load = (list) => ({
     type: LOAD,
     list,
 });
+
+const getGroup = (group) => ({
+    type: GET_GROUP,
+    group,
+})
 
 const newGroup = (group) => ({
     type: CREATE_GROUP,
@@ -38,6 +44,16 @@ export const getGroups = () => async dispatch => {
     }
 }
 
+export const getGroupDetails = (groupId) => async (dispatch) => {
+    const response = await fetch(`/api/groups/${groupId}`);
+
+    if (response.ok) {
+        const group = await response.json();
+        console.log(group, 'Response to getGroupDetails thunk')
+        dispatch(getGroup(group));
+    }
+}
+
 export const createGroup = (payload) => async dispatch => {
     const response = await fetch(`/api/groups`, {
         method: 'POST',
@@ -47,12 +63,12 @@ export const createGroup = (payload) => async dispatch => {
 
     if (response.ok) {
         const group = await response.json();
-        dispatch(newGroup(payload));
+        dispatch(newGroup(group));
         return group;
     }
 }
 
-export const updateGroup = data => async dispatch => {
+export const updateGroup = (data) => async dispatch => {
     const response = await fetch(`/api/groups/${data.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -66,16 +82,21 @@ export const updateGroup = data => async dispatch => {
     }
 }
 
+export const deleteGroup = (groupId) => async dispatch => {
+    const response = await fetch(`/api/groups/${groupId}`, {
+        method: 'DELETE',
+    });
+
+    if (response.ok) {
+        const deletedGroup = await response.json();
+        dispatch(removeGroup(deletedGroup));
+        return deletedGroup;
+    }
+}
+
 
 //__________CREATE_INITIAL_STATE__________
 const initialState = {};
-
-//_____________LIST_SORTER________________
-// const sortList = (list) => {
-//     return list.sort((groupA, groupB) => {
-//         return groupA.
-//     })
-// }
 
 //________GROUPS_REDUCER_________________
 const groupReducer = (state = initialState, action) => {
@@ -88,7 +109,8 @@ const groupReducer = (state = initialState, action) => {
             return {
                 ...newState,
                 ...state,
-            }
+            };
+            //Todo: refactor code to fit with get_group because they are the same
         case CREATE_GROUP:
             newState = { ...state, [action.group.id]: action.group }
             return newState;
@@ -99,6 +121,14 @@ const groupReducer = (state = initialState, action) => {
                     ...action.group
                 }
             }
+            return newState;
+            //Todo: refactor code to fit with create_group because they are the same
+        case GET_GROUP:
+            newState = { ...state, [action.group.id]: action.group }
+            return newState;
+        case DELETE_GROUP:
+            newState = { ...state };
+            delete newState[action.group.groupId];
             return newState;
         default:
             return state;
