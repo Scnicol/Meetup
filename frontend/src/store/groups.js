@@ -71,7 +71,8 @@ export const createGroup = (payload) => async dispatch => {
 }
 
 export const updateGroup = (data) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${data.id}/edit`, {
+    console.log(data, 'data coming in from updateGroup Thunk')
+    const response = await csrfFetch(`/api/groups/${data.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

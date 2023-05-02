@@ -2,14 +2,28 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { updateGroup } from '../../store/groups';
-import CreateGroupForm from './createGroupForm';
+import { getGroupDetails } from '../../store/groups';
+import GroupForm from './GroupForm';
 
 
 function UpdateGroupForm({ hideForm }) {
 
     const { id } = useParams();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getGroupDetails(id))
+    }, [dispatch])
+
     const group = useSelector(state => state.groups[id])
 
+    if (!group) return null;
+
+    function submitAction(group) {
+        const newGroup = {...group, id: id}
+        console.log(newGroup, 'newgroup inside submitAction')
+        return updateGroup(newGroup);
+    }
     // const dispatch = useDispatch();
     // const history = useHistory();
     // const [name, setName] = useState('');
@@ -48,7 +62,7 @@ function UpdateGroupForm({ hideForm }) {
     // };
 
     return (
-        <CreateGroupForm group={group} formType="Update" submitAction={updateGroup} />
+        <GroupForm group={group} formType="Update" submitAction={submitAction} hideForm={hideForm}/>
     );
 }
 
