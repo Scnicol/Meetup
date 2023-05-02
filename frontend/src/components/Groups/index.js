@@ -18,11 +18,11 @@ function Groups() {
         <main>
             <ul>
                 {groups.map((group) => (
-                    <li key={group.id}>Name: {group.name}
+                    <NavLink to={`/groups/${group.id}`} key={group.id}>Name: {group.name}
                         <p>
                             About: {group.about}
                         </p>
-                    </li>
+                    </NavLink>
                 ))}
             </ul>
         </main>

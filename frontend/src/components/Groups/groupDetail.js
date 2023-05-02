@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getGroupDetails } from '../../store/groups';
+import { getGroupDetails, deleteGroup } from '../../store/groups';
 
 
 const GroupDetail = () => {
@@ -18,7 +18,13 @@ const GroupDetail = () => {
 
     return (
         <div>
+            <h2>
             Group Name: {group.name}
+            </h2>
+
+            <button onClick={() => dispatch(deleteGroup(id))}>
+            Delete
+        </button>
         </div>
     )
 }

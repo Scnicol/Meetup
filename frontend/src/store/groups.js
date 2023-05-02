@@ -1,4 +1,4 @@
-
+import { csrfFetch } from "./csrf"
 //__________ACTION_TYPES____________
 const LOAD = 'groups/LOAD'
 const CREATE_GROUP = 'groups/CREATE_GROUP'
@@ -51,15 +51,18 @@ export const getGroupDetails = (groupId) => async (dispatch) => {
         const group = await response.json();
         console.log(group, 'Response to getGroupDetails thunk')
         dispatch(getGroup(group));
+        return group;
     }
 }
 
 export const createGroup = (payload) => async dispatch => {
-    const response = await fetch(`/api/groups`, {
+    console.log(payload)
+    const response = await csrfFetch(`/api/groups`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     });
+    console.log(response)
 
     if (response.ok) {
         const group = await response.json();
@@ -69,7 +72,7 @@ export const createGroup = (payload) => async dispatch => {
 }
 
 export const updateGroup = (data) => async dispatch => {
-    const response = await fetch(`/api/groups/${data.id}`, {
+    const response = await csrfFetch(`/api/groups/${data.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -83,13 +86,13 @@ export const updateGroup = (data) => async dispatch => {
 }
 
 export const deleteGroup = (groupId) => async dispatch => {
-    const response = await fetch(`/api/groups/${groupId}`, {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
         method: 'DELETE',
     });
 
     if (response.ok) {
         const deletedGroup = await response.json();
-        dispatch(removeGroup(deletedGroup));
+        dispatch(removeGroup(groupId));
         return deletedGroup;
     }
 }
@@ -128,7 +131,7 @@ const groupReducer = (state = initialState, action) => {
             return newState;
         case DELETE_GROUP:
             newState = { ...state };
-            delete newState[action.group.groupId];
+            delete newState[action.groupId];
             return newState;
         default:
             return state;
