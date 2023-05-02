@@ -12,7 +12,7 @@ function GroupForm({group , formType, submitAction, hideForm }) {
     const [about, setAbout] = useState(group.about);
     const [type, setType] = useState(group.type);
     const [isPrivate, setIsPrivate] = useState(group.private);
-    const [location, setLocation] = useState(`${group.city},${group.state}`);
+    const [location, setLocation] = useState(group.city, group.state);
     //todo update the useState with the current groups Image url
     const [imageUrl, setImageUrl] = useState('');
 
@@ -21,7 +21,7 @@ function GroupForm({group , formType, submitAction, hideForm }) {
     const updateAbout = (e) => setAbout(e.target.value);
     const updateType = (e) => setType(e.target.value);
     const updateIsPrivate = (e) => {
-        console.log(e.target.value)
+        // console.log(e.target.value)
         if (e.target.value === 'Private') setIsPrivate(true);
         if (e.target.value === 'Public') setIsPrivate(false)
     };
@@ -38,6 +38,7 @@ function GroupForm({group , formType, submitAction, hideForm }) {
         e.preventDefault();
         let splitCityState = location.split(',').map((e) => e.trim());
         const [city, state] = splitCityState;
+        //console.log for everything in the handleSubmit
         console.log(organizerId, "name:", name, "about:", about, "type:", type, "isPrivate:", isPrivate, "city:", city, "state:", state, "---------------")
         const payload = {
             organizerId,
