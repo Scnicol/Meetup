@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getGroupDetails, deleteGroup } from '../../store/groups';
+import { getGroupDetails, deleteGroup, updateGroup } from '../../store/groups';
 
 
 const GroupDetail = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
     const group = useSelector(state => state.groups[id]);
@@ -19,12 +20,14 @@ const GroupDetail = () => {
     return (
         <div>
             <h2>
-            Group Name: {group.name}
+                Group Name: {group.name}
             </h2>
-
+            <button onClick={() => history.push(`/groups/${id}/edit`)}>
+                Update
+            </button>
             <button onClick={() => dispatch(deleteGroup(id))}>
-            Delete
-        </button>
+                Delete
+            </button>
         </div>
     )
 }

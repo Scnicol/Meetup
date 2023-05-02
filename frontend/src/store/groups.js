@@ -62,7 +62,6 @@ export const createGroup = (payload) => async dispatch => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     });
-    console.log(response)
 
     if (response.ok) {
         const group = await response.json();
@@ -72,7 +71,7 @@ export const createGroup = (payload) => async dispatch => {
 }
 
 export const updateGroup = (data) => async dispatch => {
-    const response = await csrfFetch(`/api/groups/${data.id}`, {
+    const response = await csrfFetch(`/api/groups/${data.id}/edit`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
