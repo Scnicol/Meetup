@@ -1,24 +1,29 @@
 import React from 'react';
-import { getEvents } from '../../store/events';
+import { getEventsByGroupId } from '../../store/events';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-function Events() {
+function Events({id}) {
     const dispatch = useDispatch();
-    const { groupId } = useParams();
-    const { eventId } = useParams();
     const events = Object.values(useSelector(state => { return state.events }));
-    useEffect(() => {
+    const groupEvents = events.filter(event => event.groupId == id);
 
-        dispatch(getEvents());
+    useEffect(() => {
+        dispatch(getEventsByGroupId(id));
     }, [dispatch]);
 
     return (
         <main>
             <ul>
                 {events.map((event) => (
-                    <li>{event.name}</li>
+                    <div>
+                        <p>{groupEvents.startDate.slice(0, 10)}</p>
+                        {/* <NavLink to={`/`} */}
+                        <h3>{event.name}</h3>
+                        <p>{event.Venue.city}, {event.Venue.state}</p>
+                        <p>{event.description}</p>
+                    </div>
                 ))}
             </ul>
         </main>

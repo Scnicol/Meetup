@@ -21,10 +21,9 @@ function UpdateGroupForm({ hideForm }) {
 
     function submitAction(group) {
         const newGroup = {...group, id: id}
-        console.log(newGroup, 'newgroup inside submitAction')
         return updateGroup(newGroup);
     }
-    
+
 
     return (
         <GroupForm group={group} formType="Update" submitAction={submitAction} hideForm={hideForm}/>

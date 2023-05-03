@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { createGroup } from '../../store/groups';
 
 
-function GroupForm({group , formType, submitAction, hideForm }) {
+function EventForm({group , formType, submitAction, hideForm }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -25,7 +25,6 @@ function GroupForm({group , formType, submitAction, hideForm }) {
         if (e.target.value === 'Private') setIsPrivate(true);
         if (e.target.value === 'Public') setIsPrivate(false)
     };
-
     const updateLocation = (e) => setLocation(e.target.value);
     const updateImageUrl = (e) => setImageUrl(e.target.value);
 
@@ -133,4 +132,4 @@ function GroupForm({group , formType, submitAction, hideForm }) {
     )
 }
 
-export default GroupForm;
+export default EventForm;

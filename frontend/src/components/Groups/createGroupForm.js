@@ -18,7 +18,6 @@ function CreateGroupForm({ hideForm }) {
 
     function submitAction(group) {
         const newGroup = {...group}
-        console.log(newGroup, 'newgroup inside submitAction')
         return createGroup(newGroup);
     }
 

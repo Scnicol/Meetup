@@ -49,14 +49,13 @@ export const getGroupDetails = (groupId) => async (dispatch) => {
 
     if (response.ok) {
         const group = await response.json();
-        console.log(group, 'Response to getGroupDetails thunk')
         dispatch(getGroup(group));
         return group;
     }
 }
 
 export const createGroup = (payload) => async dispatch => {
-    console.log(payload)
+
     const response = await csrfFetch(`/api/groups`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -71,7 +70,7 @@ export const createGroup = (payload) => async dispatch => {
 }
 
 export const updateGroup = (data) => async dispatch => {
-    console.log(data, 'data coming in from updateGroup Thunk')
+
     const response = await csrfFetch(`/api/groups/${data.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -133,6 +132,7 @@ const groupReducer = (state = initialState, action) => {
             newState = { ...state };
             delete newState[action.groupId];
             return newState;
+
         default:
             return state;
     }
