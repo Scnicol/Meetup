@@ -16,9 +16,9 @@ function Events({id}) {
     return (
         <main>
             <ul>
-                {events.map((event) => (
+                {groupEvents.map((event) => (
                     <div>
-                        <p>{groupEvents.startDate.slice(0, 10)}</p>
+                        <p>{event.startDate.slice(0, 10)}</p>
                         {/* <NavLink to={`/`} */}
                         <h3>{event.name}</h3>
                         <p>{event.Venue.city}, {event.Venue.state}</p>

@@ -212,7 +212,6 @@ router.get('/:eventId/attendees', async (req, res, next) => {
         include: {model: User, as: 'Attendees'}
     })
 
-    // console.log(group.dataValues.organizerId, '=', userId, '?')
     if (group.dataValues.organizerId === userId || member.dataValues.status === 'co-host') {
 
         delete event.dataValues.groupId;
@@ -275,7 +274,7 @@ router.get('/:eventId', async (req, res, next) => {
 //Get All Events
 router.get('/', async (req, res, next) => {
     const events = await Event.findAll({
-        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate']
+        attributes: ['id', 'groupId', 'description', 'venueId', 'name', 'type', 'startDate', 'endDate']
     })
 
     for (let i = 0; i < events.length; i++) {

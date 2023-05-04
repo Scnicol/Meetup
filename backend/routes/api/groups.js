@@ -71,7 +71,6 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
 router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-    console.log(price)
     const group = await Group.findByPk(groupId);
 
     if (!group) {
@@ -271,7 +270,7 @@ router.get('/:groupId/members', async (req, res, next) => {
             }
         ]
     });
-    
+
     //error handler for not being able to find the group
     if (!group) {
         const err = new Error("Group couldn't be found");
@@ -307,8 +306,6 @@ router.get('/:groupId/members', async (req, res, next) => {
         });
 
         for (let i = 0; i < nonPendingMembers.dataValues.Members.length; i++) {
-            console.log(nonPendingMembers.dataValues.Members[i].Membership.status);
-            console.log('inside the if conditional')
             delete nonPendingMembers.dataValues.Members[i].Membership.dataValues.userId
             delete nonPendingMembers.dataValues.Members[i].Membership.dataValues.groupId
             delete nonPendingMembers.dataValues.Members[i].Membership.dataValues.createdAt
@@ -337,7 +334,7 @@ router.get('/:groupId/events', async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
 
     let events = await Event.findAll({
-        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate'],
+        attributes: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'startDate', 'endDate'],
         where: {
             groupId
         }
@@ -402,8 +399,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
             { model: Group, as: "Groups" }
         ]
     });
-
-    // console.log(currUserGroups.dataValues.Groups[0].dataValues);
 
     for (let i = 0; i < currUserGroups.dataValues.Groups.length; i++) {
         let groupId = currUserGroups.dataValues.Groups[i].dataValues.id
