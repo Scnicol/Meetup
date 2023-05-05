@@ -1,34 +1,42 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createGroup } from '../../store/groups';
+import { getVenues } from '../../store/venues';
+import CurrencyInput from 'react-currency-input-field';
 
 
-function EventForm({group , formType, submitAction, hideForm }) {
+function EventForm({ event, formType, submitAction, hideForm, groupId }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [name, setName] = useState(group.name);
-    const [about, setAbout] = useState(group.about);
-    const [type, setType] = useState(group.type);
-    const [isPrivate, setIsPrivate] = useState(group.private);
-    const [location, setLocation] = useState(group.city, group.state);
-    //todo update the useState with the current groups Image url
-    const [imageUrl, setImageUrl] = useState('');
+    const [venueId, setVenuId] = useState('');
+    const [name, setName] = useState(event.name);
+    const [type, setType] = useState('');
+    const [capacity, setCapacity] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [imageUrl, setImageUrl] = useState('')
 
 
     const updateName = (e) => setName(e.target.value);
-    const updateAbout = (e) => setAbout(e.target.value);
+    const updateVenueId = (e) => setVenuId(e.target.value);
     const updateType = (e) => setType(e.target.value);
-    const updateIsPrivate = (e) => {
-
-        if (e.target.value === 'Private') setIsPrivate(true);
-        if (e.target.value === 'Public') setIsPrivate(false)
-    };
-    const updateLocation = (e) => setLocation(e.target.value);
+    const updateCapacity = (e) => setCapacity(e.target.value);
+    const updatePrice = (value) => setPrice(value);
+    const updateDescription = (e) => setDescription(e.target.value);
+    const updateStartDate = (e) => setStartDate(e.target.value);
+    const updateEndDate = (e) => setEndDate(e.target.value);
     const updateImageUrl = (e) => setImageUrl(e.target.value);
 
+    useEffect(() => {
+        dispatch(getVenues(groupId));
+    }, [dispatch])
+
     const currentUser = useSelector(state => state.session.user)
+    const venues = Object.values(useSelector(state => state.venues));
+    console.log(venues, "VENUES")
 
     if (!currentUser) return null;
 
@@ -36,95 +44,81 @@ function EventForm({group , formType, submitAction, hideForm }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let splitCityState = location.split(',').map((e) => e.trim());
-        const [city, state] = splitCityState;
         const payload = {
-            organizerId,
+            venueId,
             name,
-            about,
             type,
-            isPrivate,
-            city,
-            state,
-            imageUrl,
+            capacity,
+            price,
+            description,
+            startDate,
+            endDate,
         };
 
-        let group;
-       group = await dispatch(submitAction(payload));
+        let event;
+        event = await dispatch(submitAction(payload));
 
-        if (group) {
-            history.push(`/groups/${group.id}`);
+        if (event) {
+            history.push(`/events/${event.id}`);
             hideForm();
         }
     };
 
     return (
         <>
-            <h1>{formType} Group</h1>
+            <h1>Create an event for </h1>
             <form onSubmit={handleSubmit}>
-                <h2>
-                    First, set your group's location
-                </h2>
-                <p>
-                    Meetup groups meet locally, in person and online. We'll connect you with people
-                    in your area, and more can join you online.
-                </p>
+                <p>what is the name of your event?</p>
                 <input
                     type="text"
-                    placeholder="City, STATE"
-                    value={location}
-                    onChange={updateLocation} />
-                <h2>
-                    What will your group's name be?
-                </h2>
-                <p>
-                    Choose a name that will give people a clear idea of what the group is about.
-                    Feel free to get creative! You can edit this later if you change your mind.
-                </p>
-                <input
-                    type="text"
-                    placeholder="what is your group name?"
+                    placeholder="Event Name"
                     value={name}
                     onChange={updateName} />
-                <h2>
-                    Now describe what your group will be about
-                </h2>
-                <p>
-                    People will see this when we promote your group, but you'll be able to add to it later, too.
-                    <p>1. What's the purpose of the group?</p>
-                    <p>2. Who should join?</p>
-                    <p>3. What will you do at your events?</p>
-                </p>
-                <input
-                    type="textarea"
-                    placeholder="Please write at least 30 characters"
-                    value={about}
-                    onChange={updateAbout} />
-                <h2>
-                    Final steps...
-                </h2>
-                <p>Is this an in person or online group?</p>
+                <p>is this an in person or online event?</p>
                 <select
                     value={type}
                     onChange={updateType}>
                     <option>In person</option>
                     <option>Online</option>
                 </select>
-                <p>Is this group private or public?</p>
+                <p>Please select a venue for the event</p>
                 <select
-                    value={type}
-                    onChange={updateIsPrivate}>
-                    <option>Private</option>
-                    <option>Public</option>
+                    value={venueId}
+                    onChange={updateVenueId}>
+                    {venues.map(venue =>
+                        <option key={venue.id}>{venue.address}</option>
+                    )};
                 </select>
-                <p>Please add an image url for your group below:</p>
+                <p>What is the price for your event?</p>
+                <CurrencyInput
+                    prefix="$"
+                    id="input-example"
+                    name="input-name"
+                    placeholder='$0'
+                    decimalsLimit={2}
+                    onValueChange={updatePrice} />
+                <p>When does your event start?</p>
+                <input
+                    type="date"
+                    onChange={updateStartDate} />
+                <p>When does your event end?</p>
+                <input
+                    type="date"
+                    onChange={updateEndDate} />
+                <p>Please add an image url for your event below:</p>
                 <input
                     type="text"
                     placeholder="Image URL"
                     value={imageUrl}
                     onChange={updateImageUrl} />
+                <p>Please describe your event:</p>
+                <input
+                    type="textarea"
+                    placeholder="Please include at least 50 characters"
+                    value={description}
+                    onChange={updateDescription} />
                 <h2>
-                    <button type="submit">{formType} new Group</button>
+                    <button type="submit">{formType} Event</button>
                 </h2>
             </form>
         </>

@@ -1,6 +1,7 @@
 import sessionReducer from './session';
 import groupReducer from './groups';
 import eventReducer from './events';
+import venueReducer from './venues';
 
 //1 imports for setting up the store
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
@@ -11,7 +12,8 @@ import thunk from 'redux-thunk';
 const rootReducer = combineReducers({
     session: sessionReducer,
     groups: groupReducer,
-    events: eventReducer
+    events: eventReducer,
+    venues: venueReducer,
 });
 
 //3 set up the enhancer and logger

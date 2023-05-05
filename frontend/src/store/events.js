@@ -71,8 +71,8 @@ export const getEventDetails = (eventId) => async (dispatch) => {
     }
 }
 
-export const createEvent = (payload) => async dispatch => {
-    const response = await csrfFetch(`/api/Events`, {
+export const createEvent = (payload, groupId) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -87,7 +87,7 @@ export const createEvent = (payload) => async dispatch => {
 
 
 export const updateEvent = (data) => async dispatch => {
-    const response = await csrfFetch(`/api/Events/${data.id}`, {
+    const response = await csrfFetch(`/api/events/${data.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -101,7 +101,7 @@ export const updateEvent = (data) => async dispatch => {
 }
 
 export const deleteEvent = (EventId) => async dispatch => {
-    const response = await csrfFetch(`/api/Events/${EventId}`, {
+    const response = await csrfFetch(`/api/events/${EventId}`, {
         method: 'DELETE',
     });
 

@@ -16,14 +16,24 @@ function Groups() {
 
     return (
         <main>
+            <NavLink to={`/events`} >
+                Events
+            </NavLink>
+            <NavLink to={`/groups`}>
+                Groups
+            </NavLink>
             <ul>
                 {groups.map((group) => (
-                    <NavLink to={`/groups/${group.id}`} key={group.id}>Name: {group.name}
+                    <div>
+                        <NavLink to={`/groups/${group.id}`} key={group.id}>
+                            Name: {group.name}
+                        </NavLink>
                         <p>
                             About: {group.about}
                         </p>
-                    </NavLink>
+                    </div>
                 ))}
+
             </ul>
         </main>
     )

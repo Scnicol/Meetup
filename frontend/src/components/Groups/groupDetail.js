@@ -9,15 +9,16 @@ import Events from '../Events';
 const GroupDetail = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { id } = useParams();
-    const group = useSelector(state => state.groups[id]);
+    const { groupId } = useParams();
+    console.log(groupId);
+    const group = useSelector(state => state.groups[groupId]);
     const user = useSelector(state => state.session.user)
     const events = Object.values(useSelector(state => { return state.events }));
     //take the events that we want by the groupId being provided by the params and then map over those events
 
     useEffect(() => {
-        dispatch(getEventsByGroupId(id))
-        dispatch(getGroupDetails(id));
+        dispatch(getEventsByGroupId(groupId));
+        dispatch(getGroupDetails(groupId));
     }, [dispatch]);
 
     if (!group) {
@@ -28,19 +29,19 @@ const GroupDetail = () => {
     if (events.length === 0) upcomingEvents = 'No Upcoming Events'
 
 
-
+//Todo add a history or link to your events being mapped to send yourself to the Event Details
     return (
         <div>
             <h2>
                 Group Name: {group.name}
             </h2>
-            <button onClick={() => history.push(`/groups/${id}/events/new`)}>
+            <button onClick={() => history.push(`/groups/${groupId}/events/new`)}>
                 Create Event
             </button>
-            <button onClick={() => history.push(`/groups/${id}/edit`)}>
+            <button onClick={() => history.push(`/groups/${groupId}/edit`)}>
                 Update
             </button>
-            <button onClick={() => dispatch(deleteGroup(id))}>
+            <button onClick={() => dispatch(deleteGroup(groupId))}>
                 Delete
             </button>
             <h2>Organizer</h2>
@@ -51,7 +52,7 @@ const GroupDetail = () => {
             <ul>
                 {events.map(event => (
                     <Events
-                    id={id}
+                    groupId={groupId}
                     key={event.id}/>
                 ))}
             </ul>

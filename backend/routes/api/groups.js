@@ -436,7 +436,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
                 attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
             }
         ]
-    })
+    });
 
     if (!groupVenues) {
         const err = new Error("Group couldn't be found");

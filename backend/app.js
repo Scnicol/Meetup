@@ -59,12 +59,10 @@ app.use((_req, _res, next) => {
 // Process sequelize errors
 app.use((err, _req, res, next) => {
     // check if error is a Sequelize error:
-    console.log('----------',err, 'error outside if conditional')
     if (err instanceof ValidationError) {
       let errors = {};
       for (let error of err.errors) {
         errors[error.path] = error.message;
-        console.log('inside the if statement in validationerror')
       }
       err.title = 'Validation error';
       err.errors = errors;

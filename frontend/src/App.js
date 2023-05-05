@@ -11,13 +11,17 @@ import CreateGroupForm from "./components/Groups/createGroupForm";
 import UpdateGroupForm from "./components/Groups/updateGroupForm";
 import GroupDetail from "./components/Groups/groupDetail";
 import HomePage from "./components/HomePage";
+import EventDetails from "./components/Events/EventDetail";
+import EventForm from "./components/Events/EventForm";
+import UpdateEventForm from "./components/Events/UpdateEventForm";
+import CreateEventForm from "./components/Events/CreateEventForm";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  
+
 
   }, [dispatch]);
 
@@ -44,11 +48,20 @@ function App() {
           <Route exact path="/groups/new">
             <CreateGroupForm />
           </Route>
-          <Route path="/groups/:id/edit">
+          <Route path="/groups/:groupId/events/new">
+            <CreateEventForm />
+          </Route>
+          <Route path="/groups/:groupId/edit">
             <UpdateGroupForm />
           </Route>
-          <Route path="/groups/:id">
+          <Route path="/groups/:groupId">
             <GroupDetail />
+          </Route>
+          <Route path="/events/:eventId/edit">
+            <UpdateEventForm />
+          </Route>
+          <Route path="/events/:eventId">
+            <EventDetails />
           </Route>
         </Switch>
       )}
