@@ -16,12 +16,11 @@ function Events({ groupId }) {
     const events = Object.values(useSelector(state => { return state.events }));
 
     if (events.length === 0) return (
-        <h1>LOADING EVENTS</h1>
-    )
+        null
+    );
 
     if (groupId) {
         const groupEvents = events.filter(event => event.groupId == groupId);
-        console.log(groupEvents, "GROUP EVENTS IN INDEX")
         return (
             <main>
                 <ul>

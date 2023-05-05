@@ -100,14 +100,14 @@ export const updateEvent = (data) => async dispatch => {
     }
 }
 
-export const deleteEvent = (EventId) => async dispatch => {
-    const response = await csrfFetch(`/api/events/${EventId}`, {
+export const deleteEvent = (eventId) => async dispatch => {
+    const response = await csrfFetch(`/api/events/${eventId}`, {
         method: 'DELETE',
     });
 
     if (response.ok) {
         const deletedEvent = await response.json();
-        dispatch(removeEvent(EventId));
+        dispatch(removeEvent(eventId));
         return deletedEvent;
     }
 }

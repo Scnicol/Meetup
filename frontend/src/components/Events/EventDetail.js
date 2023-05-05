@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useHistory, NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getEventDetails } from '../../store/events';
-import { getGroupDetails } from '../../store/groups';
 import { getGroups } from '../../store/groups';
+import { deleteEvent } from '../../store/events';
 
 
 const EventDetails = () => {
@@ -13,27 +13,36 @@ const EventDetails = () => {
     const events = Object.values(useSelector(state => state.events));
     const session = useSelector(state => state.session)
     const groups = Object.values(useSelector(state => state.groups))
-    console.log(events, 'EVENTS')
-
 
     const filteredEvent = events.filter(event => event.id == eventId);
     const event = filteredEvent[0];
-    console.log(event, 'EVENT')
+
 
     //Ask if there is a better way of doing this, it seems like a lot of code for just finding the group the event belongs to
 
     useEffect(() => {
         dispatch(getEventDetails(eventId));
         dispatch(getGroups())
-    }, [dispatch])
+    }, [dispatch]);
 
-    if (events.length == 0 || groups.length == 0) return (
-        <h1>LOADING EVENT</h1>
+    if (events.length == 0 || groups.length == 0 || !event) return (
+        <h1>No Events</h1>
     );
 
     const groupId = event.groupId;
     const group = groups.filter(group => group.id == groupId)
     const eventsGroup = group[0];
+
+    const handleDelete = async(e) => {
+        e.preventDefault();
+
+        let event;
+        event = await dispatch(deleteEvent(eventId));
+
+        if (event) {
+            history.push(`/groups/${groupId}`)
+        }
+    }
 
     //Ask how to get access to the useState for the value of isPrivate
 
@@ -50,6 +59,9 @@ const EventDetails = () => {
             <p>{event.type}</p>
             <h2>Details</h2>
             <p>{event.description}</p>
+            <button onClick={handleDelete}>
+                Delete Event
+            </button>
         </div>
     )
 }

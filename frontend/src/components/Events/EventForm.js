@@ -58,8 +58,6 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
             endDate,
         };
 
-        console.log(payload)
-
         let event;
         event = await dispatch(submitAction(payload));
 
