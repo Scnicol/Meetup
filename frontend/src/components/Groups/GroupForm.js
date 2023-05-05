@@ -12,7 +12,7 @@ function GroupForm({group , formType, submitAction, hideForm }) {
     const [about, setAbout] = useState(group.about);
     const [type, setType] = useState(group.type);
     const [isPrivate, setIsPrivate] = useState(group.private);
-    const [location, setLocation] = useState(group.city, group.state);
+    const [location, setLocation] = useState(`${group.city}, ${group.state}`);
     //todo update the useState with the current groups Image url
     const [imageUrl, setImageUrl] = useState('');
 

@@ -20,7 +20,7 @@ function UpdateGroupForm({ hideForm }) {
     if (!group) return null;
 
     function submitAction(group) {
-        const newGroup = {...group, groupId: groupId}
+        const newGroup = {...group, id: groupId}
         return updateGroup(newGroup);
     }
 
