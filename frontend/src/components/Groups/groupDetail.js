@@ -10,7 +10,6 @@ const GroupDetail = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { groupId } = useParams();
-    console.log(groupId);
     const group = useSelector(state => state.groups[groupId]);
     const user = useSelector(state => state.session.user)
     const events = Object.values(useSelector(state => { return state.events }));

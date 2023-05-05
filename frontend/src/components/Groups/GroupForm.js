@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { createGroup } from '../../store/groups';
 
 
-function GroupForm({group , formType, submitAction, hideForm }) {
+function GroupForm({ group, formType, submitAction, hideForm }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -40,6 +40,7 @@ function GroupForm({group , formType, submitAction, hideForm }) {
         let splitCityState = location.split(',').map((e) => e.trim());
         const [city, state] = splitCityState;
         const payload = {
+            ...group,
             organizerId,
             name,
             about,
@@ -50,10 +51,11 @@ function GroupForm({group , formType, submitAction, hideForm }) {
             imageUrl,
         };
 
-        let group;
-       group = await dispatch(submitAction(payload));
 
-        if (group) {
+        let submittedGroup;
+        submittedGroup = await dispatch(submitAction(payload));
+
+        if (submittedGroup) {
             history.push(`/groups/${group.id}`);
             hideForm();
         }

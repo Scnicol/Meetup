@@ -19,14 +19,9 @@ function UpdateGroupForm({ hideForm }) {
 
     if (!group) return null;
 
-    function submitAction(group) {
-        const newGroup = {...group, id: groupId}
-        return updateGroup(newGroup);
-    }
-
 
     return (
-        <GroupForm group={group} formType="Update" submitAction={submitAction} hideForm={hideForm}/>
+        <GroupForm group={group} formType="Update" submitAction={updateGroup} hideForm={hideForm}/>
     );
 }
 
