@@ -25,7 +25,8 @@ function LoginFormPage() {
     return dispatch(sessionActions.login({ credential, password }))
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
+        console.log(data.errors, 'Data errors')
+        if (data && data.errors) setErrors([data.errors.message]);
       });
   }
 
