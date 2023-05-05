@@ -8,19 +8,19 @@ import GroupForm from './GroupForm';
 
 function UpdateGroupForm({ hideForm }) {
 
-    const { id } = useParams();
+    const { groupId } = useParams();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getGroupDetails(id))
+        dispatch(getGroupDetails(groupId))
     }, [dispatch])
 
-    const group = useSelector(state => state.groups[id])
+    const group = useSelector(state => state.groups[groupId])
 
     if (!group) return null;
 
     function submitAction(group) {
-        const newGroup = {...group, id: id}
+        const newGroup = {...group, groupId: groupId}
         return updateGroup(newGroup);
     }
 
