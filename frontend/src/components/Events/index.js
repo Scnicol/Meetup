@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+
 function Events({ groupId }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -20,12 +21,13 @@ function Events({ groupId }) {
 
     if (groupId) {
         const groupEvents = events.filter(event => event.groupId == groupId);
+        console.log(groupEvents, "GROUP EVENTS IN INDEX")
         return (
             <main>
                 <ul>
                     {groupEvents.map((event) => (
                         <div>
-                            <p>{event.startDate.slice(0, 10)}</p>
+                            <p>{event.startDate}</p>
                             <NavLink to={`/events/${parseInt(event.id)}`}>
                                 <h3>{event.name}</h3>
                             </NavLink>
@@ -47,8 +49,8 @@ function Events({ groupId }) {
                 </NavLink>
                 <ul>
                     {events.map((event) =>
-                        <div>
-                            <p>{event.startDate.slice(0, 10)}</p>
+                        <div key={event.id}>
+                            <p>{event.startDate}</p>
                             <NavLink to={`/events/${parseInt(event.id)}`}>
                                 <h3>{event.name}</h3>
                             </NavLink>

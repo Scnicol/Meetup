@@ -9,7 +9,7 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [venueId, setVenuId] = useState('');
+    const [venueId, setVenueId] = useState('');
     const [name, setName] = useState(event.name);
     const [type, setType] = useState('');
     const [capacity, setCapacity] = useState('');
@@ -21,8 +21,12 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
 
 
     const updateName = (e) => setName(e.target.value);
-    const updateVenueId = (e) => setVenuId(e.target.value);
-    const updateType = (e) => setType(e.target.value);
+    const updateVenueId = (e) => {
+        console.log(e.target.value);
+        setVenueId(e.target.value)};
+    const updateType = (e) => {
+        console.log(e.target.value);
+        setType(e.target.value)};
     const updateCapacity = (e) => setCapacity(e.target.value);
     const updatePrice = (value) => setPrice(value);
     const updateDescription = (e) => setDescription(e.target.value);
@@ -36,8 +40,7 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
 
     const currentUser = useSelector(state => state.session.user)
     const venues = Object.values(useSelector(state => state.venues));
-    console.log(venues, "VENUES")
-
+    console.log(type)
     if (!currentUser) return null;
 
     const organizerId = currentUser.id;
@@ -54,6 +57,8 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
             startDate,
             endDate,
         };
+
+        console.log(payload)
 
         let event;
         event = await dispatch(submitAction(payload));
@@ -81,12 +86,20 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
                     <option>In person</option>
                     <option>Online</option>
                 </select>
+                <p>How many people can come?</p>
+                <input
+                type="number"
+                placeholder="Capacity"
+                min="0"
+                max="100"
+                value={capacity}
+                onChange={updateCapacity}/>
                 <p>Please select a venue for the event</p>
                 <select
                     value={venueId}
                     onChange={updateVenueId}>
                     {venues.map(venue =>
-                        <option key={venue.id}>{venue.address}</option>
+                        <option key={venue.id} value={venue.id}>{venue.address}</option>
                     )};
                 </select>
                 <p>What is the price for your event?</p>

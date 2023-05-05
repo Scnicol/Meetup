@@ -29,7 +29,7 @@ const GroupDetail = () => {
     if (events.length === 0) upcomingEvents = 'No Upcoming Events'
 
 
-//Todo add a history or link to your events being mapped to send yourself to the Event Details
+    //Todo add a history or link to your events being mapped to send yourself to the Event Details
     return (
         <div>
             <h2>
@@ -45,16 +45,12 @@ const GroupDetail = () => {
                 Delete
             </button>
             <h2>Organizer</h2>
-            <p>{user.username} User</p>
+            <p>{user.username}</p>
             <h2>What we're about</h2>
             <p>{group.about}</p>
             <h2>{upcomingEvents}</h2>
             <ul>
-                {events.map(event => (
-                    <Events
-                    groupId={groupId}
-                    key={event.id}/>
-                ))}
+                <Events groupId={groupId} />
             </ul>
         </div>
     )
