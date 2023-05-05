@@ -28,6 +28,16 @@ const GroupDetail = () => {
     let upcomingEvents = 'Upcoming Events'
     if (events.length === 0) upcomingEvents = 'No Upcoming Events'
 
+    const handleDelete = async(e) => {
+        e.preventDefault();
+
+        let group;
+        group = await dispatch(deleteGroup(groupId));
+
+        if (group) {
+            history.push(`/groups`)
+        }
+    }
 
     //Todo add a history or link to your events being mapped to send yourself to the Event Details
     return (
@@ -41,7 +51,7 @@ const GroupDetail = () => {
             <button onClick={() => history.push(`/groups/${groupId}/edit`)}>
                 Update
             </button>
-            <button onClick={() => dispatch(deleteGroup(groupId))}>
+            <button onClick={handleDelete}>
                 Delete
             </button>
             <h2>Organizer</h2>
