@@ -18,9 +18,9 @@ function LoginFormPage() {
     <Redirect to="/" />
   );
 
-  const handleSubmit = (e) => {
+  const loginUser = (credential, password) => {
+    console.log(credential, password, "credential and password")
 
-    e.preventDefault();
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password }))
       .catch(async (res) => {
@@ -30,31 +30,47 @@ function LoginFormPage() {
       });
   }
 
+  const loginDemoUser = () => {
+    return loginUser('Demo-lition', 'password');
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    return loginUser(credential, password);
+  }
+
+
+
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
-      <label>
-        Username or Email
-        <input
-          type="text"
-          value={credential}
-          onChange={(e) => setCredential(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <ul>
+          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+        </ul>
+        <label>
+          Username or Email
+          <input
+            type="text"
+            value={credential}
+            onChange={(e) => setCredential(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Password
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+      </form>
+      <button onClick={loginDemoUser}>
+        Login as DemoUser
+      </button>
+    </div>
   );
 }
 
