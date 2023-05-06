@@ -12,7 +12,6 @@ import UpdateGroupForm from "./components/Groups/updateGroupForm";
 import GroupDetail from "./components/Groups/groupDetail";
 import HomePage from "./components/HomePage";
 import EventDetails from "./components/Events/EventDetail";
-import EventForm from "./components/Events/EventForm";
 import UpdateEventForm from "./components/Events/UpdateEventForm";
 import CreateEventForm from "./components/Events/CreateEventForm";
 
