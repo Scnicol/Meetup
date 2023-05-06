@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from 'react-helmet';
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
@@ -26,6 +27,9 @@ function App() {
 
   return (
     <>
+    <Helmet>
+      <title>Meet-Up</title>
+    </Helmet>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
