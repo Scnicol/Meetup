@@ -26,12 +26,7 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
     const updateName = (e) => setName(e.target.value);
     const updateAbout = (e) => setAbout(e.target.value);
     const updateType = (e) => setType(e.target.value);
-    const updateIsPrivate = (e) => {
-
-        if (e.target.value === 'Private') setIsPrivate(true);
-        if (e.target.value === 'Public') setIsPrivate(false)
-    };
-
+    const updateIsPrivate = (e) => setIsPrivate(e.target.value);
     const updateLocation = (e) => setLocation(e.target.value);
     const updateImageUrl = (e) => setImageUrl(e.target.value);
 
@@ -96,7 +91,7 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
                     value={name}
                     onChange={updateName} />
                 <h2>
-                    Now describe what your group will be about
+                    Describe the purpose of your group
                 </h2>
                 <p>
                     People will see this when we promote your group, but you'll be able to add to it later, too.
@@ -121,10 +116,10 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
                 </select>
                 <p>Is this group private or public?</p>
                 <select
-                    value={type}
+                    value={isPrivate}
                     onChange={updateIsPrivate}>
-                    <option>Private</option>
-                    <option>Public</option>
+                    <option value={true}>Private</option>
+                    <option value={false}>Public</option>
                 </select>
                 <p>Please add an image url for your group below:</p>
                 <input

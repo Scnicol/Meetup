@@ -21,12 +21,8 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
 
 
     const updateName = (e) => setName(e.target.value);
-    const updateVenueId = (e) => {
-        console.log(e.target.value);
-        setVenueId(e.target.value)};
-    const updateType = (e) => {
-        console.log(e.target.value);
-        setType(e.target.value)};
+    const updateVenueId = (e) => {setVenueId(e.target.value)};
+    const updateType = (e) => {setType(e.target.value)};
     const updateCapacity = (e) => setCapacity(e.target.value);
     const updatePrice = (value) => setPrice(value);
     const updateDescription = (e) => setDescription(e.target.value);
