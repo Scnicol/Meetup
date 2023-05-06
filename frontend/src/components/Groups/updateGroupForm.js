@@ -21,7 +21,7 @@ function UpdateGroupForm({ hideForm }) {
 
 
     return (
-        <GroupForm group={group} formType="Update" submitAction={updateGroup} hideForm={hideForm}/>
+        <GroupForm group={group} formTitle="Update this" formSubmit="Update" submitAction={updateGroup} hideForm={hideForm}/>
     );
 }
 
