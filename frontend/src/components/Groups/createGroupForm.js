@@ -22,7 +22,7 @@ function CreateGroupForm({ hideForm }) {
     }
 
     return (
-        <GroupForm group={group} formType="Start a New" submitAction={submitAction} hideForm={hideForm}/>
+        <GroupForm group={group} formTitle="Start a New" formSubmit="Create" submitAction={submitAction} hideForm={hideForm}/>
     );
 
 }

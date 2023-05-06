@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { createGroup } from '../../store/groups';
 
 
-function GroupForm({ group, formType, submitAction, hideForm }) {
+function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -13,14 +13,18 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
     const [type, setType] = useState(group.type);
     const [isPrivate, setIsPrivate] = useState(group.private);
     let spot;
-    if (group.city && group.state) { spot = `${group.city}, ${group.state}`}
+    if (group.city && group.state) { spot = `${group.city}, ${group.state}` }
     const [location, setLocation] = useState(spot);
     //todo update the useState with the current groups Image url
     const [imageUrl, setImageUrl] = useState('');
 
+    const [errors, setErrors] = useState({ name: [], about: [] });
     useEffect(() => {
-        const validationErrors = { name: [], about: []}
-    })
+        const validationErrors = { name: [], about: [] };
+        if (name.length === 0) validationErrors.name.push('Name field is required');
+        if (about.length < 30) validationErrors.about.push('Description needs 30 or more characters');
+        setErrors(validationErrors);
+    }, [name, about])
 
 
     const updateName = (e) => setName(e.target.value);
@@ -64,7 +68,7 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
 
     return (
         <>
-            <h1>{formType} Group</h1>
+            <h1>{formTitle} Group</h1>
             <form onSubmit={handleSubmit}>
                 <h2>
                     First, set your group's location
@@ -90,6 +94,11 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
                     placeholder="what is your group name?"
                     value={name}
                     onChange={updateName} />
+                <ul className='errors'>
+                    {errors.name.map((error) => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </ul>
                 <h2>
                     Describe the purpose of your group
                 </h2>
@@ -104,6 +113,11 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
                     placeholder="Please write at least 30 characters"
                     value={about}
                     onChange={updateAbout} />
+                    <ul className='errors'>
+                    {errors.about.map((error) => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </ul>
                 <h2>
                     Final steps...
                 </h2>
@@ -128,7 +142,7 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
                     value={imageUrl}
                     onChange={updateImageUrl} />
                 <h2>
-                    <button type="submit">{formType} new Group</button>
+                    <button type="submit" disabled={errors.name.length > 0 || errors.about.length > 0}>{formSubmit} Group</button>
                 </h2>
             </form>
         </>

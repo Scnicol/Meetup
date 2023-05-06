@@ -22,7 +22,7 @@ const {groupId} = useParams();
     }
 
     return (
-        <EventForm event={event} groupId={groupId} formType="Create" submitAction={submitAction} hideForm={hideForm}/>
+        <EventForm event={event} groupId={groupId} formTitle="Create" formSubmit="Create" submitAction={submitAction} hideForm={hideForm}/>
     );
 }
 

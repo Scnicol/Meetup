@@ -5,7 +5,7 @@ import { getVenues } from '../../store/venues';
 import CurrencyInput from 'react-currency-input-field';
 
 
-function EventForm({ event, formType, submitAction, hideForm, groupId }) {
+function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, groupId }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -125,7 +125,7 @@ function EventForm({ event, formType, submitAction, hideForm, groupId }) {
                     value={description}
                     onChange={updateDescription} />
                 <h2>
-                    <button type="submit">{formType} Event</button>
+                    <button type="submit">{formSubmit} Event</button>
                 </h2>
             </form>
         </>
