@@ -12,9 +12,15 @@ function GroupForm({ group, formType, submitAction, hideForm }) {
     const [about, setAbout] = useState(group.about);
     const [type, setType] = useState(group.type);
     const [isPrivate, setIsPrivate] = useState(group.private);
-    const [location, setLocation] = useState(`${group.city}, ${group.state}`);
+    let spot;
+    if (group.city && group.state) { spot = `${group.city}, ${group.state}`}
+    const [location, setLocation] = useState(spot);
     //todo update the useState with the current groups Image url
     const [imageUrl, setImageUrl] = useState('');
+
+    useEffect(() => {
+        const validationErrors = { name: [], about: []}
+    })
 
 
     const updateName = (e) => setName(e.target.value);
