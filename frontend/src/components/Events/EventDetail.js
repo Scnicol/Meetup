@@ -55,7 +55,7 @@ const EventDetails = () => {
             <p>Hosted by {session.user.firstName} {session.user.lastName}</p>
             <p>{eventsGroup.name} {}</p>
             <p>Start {event.startDate} End {event.endDate}</p>
-            <p>{event.price}$</p>
+            <p>${event.price}</p>
             <p>{event.type}</p>
             <h2>Details</h2>
             <p>{event.description}</p>

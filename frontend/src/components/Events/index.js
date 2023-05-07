@@ -26,10 +26,10 @@ function Events({ groupId }) {
                 <ul>
                     {groupEvents.map((event) => (
                         <div>
-                            <p>{event.startDate}</p>
                             <NavLink to={`/events/${parseInt(event.id)}`}>
                                 <h3>{event.name}</h3>
                             </NavLink>
+                            <p>{event.startDate}</p>
                             <p>{event.Venue.city}, {event.Venue.state}</p>
                             <p>{event.description}</p>
                         </div>
@@ -49,10 +49,10 @@ function Events({ groupId }) {
                 <ul>
                     {events.map((event) =>
                         <div key={event.id}>
-                            <p>{event.startDate}</p>
                             <NavLink to={`/events/${parseInt(event.id)}`}>
                                 <h3>{event.name}</h3>
                             </NavLink>
+                            <p>{event.startDate}</p>
                             <p>{event.Venue.city}, {event.Venue.state}</p>
                             <p>{event.description}</p>
                         </div>
