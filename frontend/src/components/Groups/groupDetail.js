@@ -20,14 +20,14 @@ const GroupDetail = () => {
         dispatch(getGroupDetails(groupId));
     }, [dispatch]);
 
-    if (!group) {
+    if (!group.name || !group.Organizer) {
         return null;
     }
 
     let upcomingEvents = 'Upcoming Events'
     if (events.length === 0) upcomingEvents = 'No Upcoming Events'
 
-    const handleDelete = async(e) => {
+    const handleDelete = async (e) => {
         e.preventDefault();
 
         let group;
@@ -38,7 +38,7 @@ const GroupDetail = () => {
         }
     }
 
-    //Todo add a history or link to your events being mapped to send yourself to the Event Details
+    
     return (
         <div>
             <h2>
@@ -54,7 +54,7 @@ const GroupDetail = () => {
                 Delete
             </button>
             <h2>Organizer</h2>
-            <p>{user.username}</p>
+            <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
             <h2>What we're about</h2>
             <p>{group.about}</p>
             <h2>{upcomingEvents}</h2>

@@ -9,7 +9,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [venueId, setVenueId] = useState('');
+    const [venueId, setVenueId] = useState(1);
     const [name, setName] = useState(event.name);
     const [type, setType] = useState('');
     const [capacity, setCapacity] = useState('');
@@ -17,12 +17,22 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
     const [description, setDescription] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [imageUrl, setImageUrl] = useState('')
+    const [imageUrl, setImageUrl] = useState('');
+
+    //______________VALIDATION_ERRORS______________
+    const [errors, setErrors] = useState({ name: [], capacity: [], description: [] });
+    useEffect(() => {
+        const validationErrors = { name: [], capacity: [], description: [], };
+        if (name.length === 0) validationErrors.name.push('Name filed is required');
+        if (capacity < 1) validationErrors.capacity.push('Please provide a capacity');
+        if (description.length < 30) validationErrors.description.push('Description needs 30 or more characters');
+        setErrors(validationErrors)
+    }, [name, capacity, description]);
 
 
     const updateName = (e) => setName(e.target.value);
-    const updateVenueId = (e) => {setVenueId(e.target.value)};
-    const updateType = (e) => {setType(e.target.value)};
+    const updateVenueId = (e) => { setVenueId(e.target.value) };
+    const updateType = (e) => { setType(e.target.value) };
     const updateCapacity = (e) => setCapacity(e.target.value);
     const updatePrice = (value) => setPrice(value);
     const updateDescription = (e) => setDescription(e.target.value);
@@ -36,7 +46,8 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
     const currentUser = useSelector(state => state.session.user)
     const venues = Object.values(useSelector(state => state.venues));
-    console.log(type)
+    const group = useSelector(state => state.groups[groupId]);
+
     if (!currentUser) return null;
 
     const organizerId = currentUser.id;
@@ -54,6 +65,8 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
             endDate,
         };
 
+        console.log(payload)
+
         let event;
         event = await dispatch(submitAction(payload));
 
@@ -65,7 +78,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
     return (
         <>
-            <h1>Create an event for </h1>
+            <h1>Create new event for {group.name}</h1>
             <form onSubmit={handleSubmit}>
                 <p>what is the name of your event?</p>
                 <input
@@ -73,6 +86,11 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
                     placeholder="Event Name"
                     value={name}
                     onChange={updateName} />
+                <ul className='errors'>
+                    {errors.name.map((error) => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </ul>
                 <p>is this an in person or online event?</p>
                 <select
                     value={type}
@@ -82,12 +100,17 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
                 </select>
                 <p>How many people can come?</p>
                 <input
-                type="number"
-                placeholder="Capacity"
-                min="0"
-                max="100"
-                value={capacity}
-                onChange={updateCapacity}/>
+                    type="number"
+                    placeholder="Capacity"
+                    min="0"
+                    max="100"
+                    value={capacity}
+                    onChange={updateCapacity} />
+                <ul className='errors'>
+                    {errors.capacity.map((error) => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </ul>
                 <p>Please select a venue for the event</p>
                 <select
                     value={venueId}
@@ -106,11 +129,13 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
                     onValueChange={updatePrice} />
                 <p>When does your event start?</p>
                 <input
-                    type="date"
+                    type="datetime"
+                    placeholder='MM/DD/YYYY, HH/mm AM'
                     onChange={updateStartDate} />
                 <p>When does your event end?</p>
                 <input
-                    type="date"
+                    type="datetime"
+                    placeholder='MM/DD/YYYY, HH/mm PM'
                     onChange={updateEndDate} />
                 <p>Please add an image url for your event below:</p>
                 <input
@@ -121,11 +146,18 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
                 <p>Please describe your event:</p>
                 <input
                     type="textarea"
-                    placeholder="Please include at least 50 characters"
+                    rows="5"
+                    cols="40"
+                    placeholder="Please include at least 30 characters"
                     value={description}
                     onChange={updateDescription} />
+                <ul className='errors'>
+                    {errors.description.map((error) => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </ul>
                 <h2>
-                    <button type="submit">{formSubmit} Event</button>
+                    <button type="submit" disabled={errors.name.length || errors.capacity.length || errors.description.length}>{formSubmit} Event</button>
                 </h2>
             </form>
         </>

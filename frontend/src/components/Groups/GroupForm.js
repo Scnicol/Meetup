@@ -65,6 +65,9 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
             hideForm();
         }
     };
+    console.log(formTitle, organizerId, group.organizerId)
+
+    if (formTitle == 'Update your' && organizerId !== group.organizerId) history.push(`/`);
 
     return (
         <>
