@@ -26,6 +26,8 @@ const HomePage = () => {
                 Find an event
             </NavLink>
            <NavLink to={`/groups/new`} disabled={!user}>Start a Group</NavLink>
+           {/* Todo: What is this Join Meetup button supposed to do */}
+           <button>Join Meetup</button>
         </main>
     )
 }

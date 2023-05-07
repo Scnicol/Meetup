@@ -38,21 +38,34 @@ const GroupDetail = () => {
         }
     }
 
-    
+    function ActionButtons() {
+        if (user && user.id === group.Organizer.id) {
+            return (
+                <div>
+                    <button onClick={() => history.push(`/groups/${groupId}/events/new`)}>
+                        Create Event
+                    </button>
+                    <button onClick={() => history.push(`/groups/${groupId}/edit`)}>
+                        Update
+                    </button>
+                    <button onClick={handleDelete}>
+                        Delete
+                    </button>
+                </div>
+            );
+        }
+        return (
+            <button onClick={() => alert("Feature Coming Soon...")}>Join this Group</button>
+        );
+    }
+
+
     return (
         <div>
             <h2>
                 Group Name: {group.name}
             </h2>
-            <button onClick={() => history.push(`/groups/${groupId}/events/new`)}>
-                Create Event
-            </button>
-            <button onClick={() => history.push(`/groups/${groupId}/edit`)}>
-                Update
-            </button>
-            <button onClick={handleDelete}>
-                Delete
-            </button>
+            <ActionButtons />
             <h2>Organizer</h2>
             <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
             <h2>What we're about</h2>
