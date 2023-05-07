@@ -14,6 +14,7 @@ const GroupDetail = () => {
     const group = useSelector(state => state.groups[groupId]);
     const user = useSelector(state => state.session.user)
     const events = Object.values(useSelector(state => { return state.events }));
+    const groupEvents = events.filter(event => event.groupId == groupId);
     //take the events that we want by the groupId being provided by the params and then map over those events
 
     useEffect(() => {
@@ -26,16 +27,14 @@ const GroupDetail = () => {
         return null;
     }
 
-    let upcomingEventsHeader = 'Upcoming Events'
-    if (events.length === 0) upcomingEventsHeader = 'No Upcoming Events'
-
     //Arrays for past and future events
     let pastEventsArr = [];
     let upcomingEventsArr = [];
 
+
+
     //Sorting Event by Date
-    const sortedEventsbyDate = events.sort((a, b) => {
-        // console.log(new Date(b.startDate), 'Converted DATE');
+    const sortedEventsbyDate = groupEvents.sort((a, b) => {
         return new Date(b.startDate) - new Date(a.startDate)
     });
 
@@ -78,7 +77,6 @@ const GroupDetail = () => {
         );
     }
 
-
     return (
         <div>
             <NavLink to={`/groups`}>
@@ -100,9 +98,9 @@ const GroupDetail = () => {
                 <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
                 <h2>What we're about</h2>
                 <p>{group.about}</p>
-                <h2>{upcomingEventsHeader}</h2>
+                <h2>{upcomingEventsArr.length ? 'Upcoming Events' : 'No Upcoming Events'}</h2>
                 <EventsList events={upcomingEventsArr}/>
-                <h2>Past Events</h2>
+                <h2>{pastEventsArr.length ? 'Past Events' : 'No Past Events'}</h2>
                 <EventsList events={pastEventsArr}/>
             </div>
         </div>
