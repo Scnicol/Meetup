@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getGroupDetails, deleteGroup, updateGroup } from '../../store/groups';
 import { getEventsByGroupId } from '../../store/events';
@@ -39,7 +39,8 @@ const GroupDetail = () => {
     }
 
     function ActionButtons() {
-        if (user && user.id === group.Organizer.id) {
+        if(!user) return null;
+        if (user.id === group.Organizer.id) {
             return (
                 <div>
                     <button onClick={() => history.push(`/groups/${groupId}/events/new`)}>
@@ -62,18 +63,30 @@ const GroupDetail = () => {
 
     return (
         <div>
-            <h2>
-                Group Name: {group.name}
-            </h2>
-            <ActionButtons />
-            <h2>Organizer</h2>
-            <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
-            <h2>What we're about</h2>
-            <p>{group.about}</p>
-            <h2>{upcomingEvents}</h2>
-            <ul>
-                <Events groupId={groupId} />
-            </ul>
+            <NavLink to={`/groups`}>
+                {"<groups"}
+            </NavLink>
+            <div>
+                <img src="img.png" />
+
+                <h2>
+                    Group Name: {group.name}
+                </h2>
+                <p>{group.city}, {group.state}</p>
+                <p>
+                    ## Events · {group.private ? 'Private' : 'Public'}
+                </p>
+                <p>Organized by: {group.Organizer.firstName} {group.Organizer.lastName}</p>
+                <ActionButtons />
+                <h2>Organizer</h2>
+                <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
+                <h2>What we're about</h2>
+                <p>{group.about}</p>
+                <h2>{upcomingEvents}</h2>
+                <ul>
+                    <Events groupId={groupId} />
+                </ul>
+            </div>
         </div>
     )
 }
