@@ -14,24 +14,43 @@ function Groups() {
         dispatch(getGroups());
     }, [dispatch]);
 
+
     return (
         <main>
             <NavLink to={`/events`} >
-                Events
+                <h2>
+                    Events
+                </h2>
             </NavLink>
             <NavLink to={`/groups`}>
-                Groups
+                <h2>
+                    Groups
+                </h2>
             </NavLink>
+            <h1>Groups in Meetup</h1>
             <ul>
                 {groups.map((group) => (
-                    <div>
-                        <NavLink to={`/groups/${group.id}`} key={group.id}>
-                            Name: {group.name}
-                        </NavLink>
-                        <p>
-                            About: {group.about}
-                        </p>
-                    </div>
+
+                    <NavLink to={`/groups/${group.id}`} key={group.id}>
+                        <div>
+                            <h2>
+                                Name: {group.name}
+                            </h2>
+                            <img
+                                src={`${group.previewImage[0]}`}
+                            />
+                            <h3>
+                                {group.city}, {group.state}
+                            </h3>
+                            <p>
+                                About: {group.about}
+                            </p>
+                            <h3>
+                                ## Events · {group.private ? 'Private' : 'Public'}
+                            </h3>
+                        </div>
+                        <hr/>
+                    </NavLink>
                 ))}
 
             </ul>
