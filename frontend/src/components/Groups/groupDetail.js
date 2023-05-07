@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getGroupDetails, deleteGroup, updateGroup } from '../../store/groups';
 import { getEventsByGroupId } from '../../store/events';
 import Events from '../Events';
+import EventsList from '../Events/EventsList';
 
 
 const GroupDetail = () => {
@@ -20,12 +21,29 @@ const GroupDetail = () => {
         dispatch(getGroupDetails(groupId));
     }, [dispatch]);
 
-    if (!group.name || !group.Organizer) {
+
+    if (!group || !group.name || !group.Organizer) {
         return null;
     }
 
-    let upcomingEvents = 'Upcoming Events'
-    if (events.length === 0) upcomingEvents = 'No Upcoming Events'
+    let upcomingEventsHeader = 'Upcoming Events'
+    if (events.length === 0) upcomingEventsHeader = 'No Upcoming Events'
+
+    //Arrays for past and future events
+    let pastEventsArr = [];
+    let upcomingEventsArr = [];
+
+    //Sorting Event by Date
+    const sortedEventsbyDate = events.sort((a, b) => {
+        // console.log(new Date(b.startDate), 'Converted DATE');
+        return new Date(b.startDate) - new Date(a.startDate)
+    });
+
+    const currentDate = new Date();
+    sortedEventsbyDate.forEach((event) => {
+        if (new Date(event.startDate) < currentDate) pastEventsArr.push(event)
+        else upcomingEventsArr.push(event)
+    });
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -39,7 +57,7 @@ const GroupDetail = () => {
     }
 
     function ActionButtons() {
-        if(!user) return null;
+        if (!user) return null;
         if (user.id === group.Organizer.id) {
             return (
                 <div>
@@ -82,10 +100,10 @@ const GroupDetail = () => {
                 <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
                 <h2>What we're about</h2>
                 <p>{group.about}</p>
-                <h2>{upcomingEvents}</h2>
-                <ul>
-                    <Events groupId={groupId} />
-                </ul>
+                <h2>{upcomingEventsHeader}</h2>
+                <EventsList events={upcomingEventsArr}/>
+                <h2>Past Events</h2>
+                <EventsList events={pastEventsArr}/>
             </div>
         </div>
     )

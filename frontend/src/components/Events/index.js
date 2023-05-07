@@ -4,6 +4,7 @@ import { getEvents } from '../../store/events';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import EventsList from './EventsList';
 
 
 function Events({ groupId }) {
@@ -19,47 +20,17 @@ function Events({ groupId }) {
         null
     );
 
-    if (groupId) {
-        const groupEvents = events.filter(event => event.groupId == groupId);
-        return (
-            <main>
-                <ul>
-                    {groupEvents.map((event) => (
-                        <div>
-                            <NavLink to={`/events/${parseInt(event.id)}`}>
-                                <h3>{event.name}</h3>
-                            </NavLink>
-                            <p>{event.startDate}</p>
-                            <p>{event.Venue.city}, {event.Venue.state}</p>
-                            <p>{event.description}</p>
-                        </div>
-                    ))}
-                </ul>
-            </main>
-        )
-    } else {
-        return (
-            <main>
-                <NavLink to={`/events`} >
-                    Events
-                </NavLink>
-                <NavLink to={`/groups`}>
-                    Groups
-                </NavLink>
-                <ul>
-                    {events.map((event) =>
-                        <div key={event.id}>
-                            <NavLink to={`/events/${parseInt(event.id)}`}>
-                                <h3>{event.name}</h3>
-                            </NavLink>
-                            <p>{event.startDate}</p>
-                            <p>{event.Venue.city}, {event.Venue.state}</p>
-                            <p>{event.description}</p>
-                        </div>
-                    )}
-                </ul>
-            </main>
-        )
-    }
+    return (
+        <main>
+            <NavLink to={`/events`} >
+                Events
+            </NavLink>
+            <NavLink to={`/groups`}>
+                Groups
+            </NavLink>
+            <EventsList events={events} />
+        </main>
+    )
+
 }
 export default Events;
