@@ -14,6 +14,11 @@ function Groups() {
         dispatch(getGroups());
     }, [dispatch]);
 
+    if (!groups) {
+        return (
+            <h2>Loading Groups</h2>
+        )
+    }
 
     return (
         <main>
@@ -37,7 +42,7 @@ function Groups() {
                                 Name: {group.name}
                             </h2>
                             <img
-                                src={`${group.previewImage[0]}`}
+                                src={group.previewImage?.[0]?.url ?? "img.png"}
                             />
                             <h3>
                                 {group.city}, {group.state}

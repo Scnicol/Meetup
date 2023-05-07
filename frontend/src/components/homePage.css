@@ -1,3 +1,4 @@
-.disable-link {
+a[disabled] {
     pointer-events: none;
+    color: grey
 }

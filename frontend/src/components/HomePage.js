@@ -25,7 +25,7 @@ const HomePage = () => {
             <NavLink to={`/events`}>
                 Find an event
             </NavLink>
-           <NavLink to={`/groups/new`} disabled={true} className={user ? "" : 'disable-link'}>Start a Group</NavLink>
+           <NavLink to={`/groups/new`} disabled={!user}>Start a Group</NavLink>
         </main>
     )
 }
