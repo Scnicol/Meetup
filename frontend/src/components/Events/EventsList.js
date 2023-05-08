@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { formattedDateTime } from '../../helperFunctions';
+import { formattedDateTime, imageDisplay } from '../../helperFunctions';
+
 
 function EventsList({ events }) {
 
@@ -19,7 +20,7 @@ function EventsList({ events }) {
         else upcomingEventsArr.push(event)
     });
 
-    const EventsSection = ({events}) => {
+    const EventsSection = ({ events }) => {
 
         return (
             <ul>
@@ -27,12 +28,12 @@ function EventsList({ events }) {
                     <div key={event.id}>
                         <NavLink to={`/events/${parseInt(event.id)}`}>
                             <h3>{event.name}</h3>
+                            <img
+                                src={imageDisplay(event.EventImages)} />
+                            <p>{formattedDateTime(event.startDate)}</p>
+                            <p>{event.Venue.city}, {event.Venue.state}</p>
+                            <p>{event.description}</p>
                         </NavLink>
-                        <img
-                        src={event.EventImages?.[0]?.url ?? "img.png"}/>
-                        <p>{formattedDateTime(event.startDate)}</p>
-                        <p>{event.Venue.city}, {event.Venue.state}</p>
-                        <p>{event.description}</p>
                     </div>
                 ))}
             </ul>
@@ -41,7 +42,7 @@ function EventsList({ events }) {
 
     return (
         <div>
-            <h2>{upcomingEventsArr.length ? `Upcoming Events (${upcomingEventsArr.length})`  : 'No Upcoming Events'}</h2>
+            <h2>{upcomingEventsArr.length ? `Upcoming Events (${upcomingEventsArr.length})` : 'No Upcoming Events'}</h2>
             <EventsSection events={upcomingEventsArr} />
             <h2>{pastEventsArr.length ? `Past Events (${pastEventsArr.length})` : 'No Past Events'}</h2>
             <EventsSection events={pastEventsArr} />

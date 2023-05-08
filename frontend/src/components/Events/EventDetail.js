@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getEventDetails } from '../../store/events';
 import { getGroups } from '../../store/groups';
 import { deleteEvent } from '../../store/events';
+import { formattedDateTime, imageDisplay } from '../../helperFunctions';
+
 
 
 const EventDetails = () => {
@@ -33,7 +35,7 @@ const EventDetails = () => {
     const group = groups.filter(group => group.id == groupId)
     const eventsGroup = group[0];
 
-    const handleDelete = async(e) => {
+    const handleDelete = async (e) => {
         e.preventDefault();
 
         let event;
@@ -52,9 +54,11 @@ const EventDetails = () => {
                 Back to Events
             </NavLink>
             <h1>{event.name}</h1>
+            <img src={imageDisplay(event.EventImages)}/>
             <p>Hosted by {session.user.firstName} {session.user.lastName}</p>
-            <p>{eventsGroup.name} {}</p>
-            <p>Start {event.startDate} End {event.endDate}</p>
+            <p>{eventsGroup.name} { }</p>
+            <p>Start {formattedDateTime(event.startDate)}</p>
+            <p>End {formattedDateTime(event.endDate)}</p>
             <p>${event.price}</p>
             <p>{event.type}</p>
             <h2>Details</h2>

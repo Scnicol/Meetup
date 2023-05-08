@@ -4,3 +4,10 @@ export const formattedDateTime = (dateString) => {
     const options = {hour: 'numeric', minute: 'numeric'}
     return date.toLocaleDateString() + " · " + date.toLocaleTimeString(undefined, options);
 }
+
+
+//_____IMAGE_DISPLAY_______
+export const imageDisplay = (images) => {
+    const image = images?.[0]?.url ?? 'image.png';
+    return image;
+}

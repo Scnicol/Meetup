@@ -5,6 +5,7 @@ import { getGroupDetails, deleteGroup, updateGroup } from '../../store/groups';
 import { getEventsByGroupId } from '../../store/events';
 import Events from '../Events';
 import EventsList from '../Events/EventsList';
+import { imageDisplay } from '../../helperFunctions';
 
 
 const GroupDetail = () => {
@@ -65,7 +66,7 @@ const GroupDetail = () => {
                 {"<groups"}
             </NavLink>
             <div>
-                <img src={group.previewImage?.[0]?.url ?? "img.png"} />
+                <img src={imageDisplay(group.previewImage)} />
 
                 <h2>
                     Group Name: {group.name}

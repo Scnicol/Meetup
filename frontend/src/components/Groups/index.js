@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getEvents } from '../../store/events';
+import { imageDisplay } from '../../helperFunctions';
 
 function Groups() {
     //Going to add a delete group dispatch here for specific group
@@ -49,7 +50,7 @@ function Groups() {
                                     Name: {group.name}
                                 </h2>
                                 <img
-                                    src={group.previewImage?.[0]?.url ?? "img.png"}
+                                    src={imageDisplay(group.previewImage)}
                                 />
                                 <h3>
                                     {group.city}, {group.state}
