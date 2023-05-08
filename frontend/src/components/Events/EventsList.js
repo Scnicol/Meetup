@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { formattedDateTime } from '../../helperFunctions';
 
 function EventsList({ events }) {
 
@@ -29,7 +30,7 @@ function EventsList({ events }) {
                         </NavLink>
                         <img
                         src={event.EventImages?.[0]?.url ?? "img.png"}/>
-                        <p>{event.startDate}</p>
+                        <p>{formattedDateTime(event.startDate)}</p>
                         <p>{event.Venue.city}, {event.Venue.state}</p>
                         <p>{event.description}</p>
                     </div>
