@@ -45,27 +45,33 @@ const EventDetails = () => {
             history.push(`/groups/${groupId}`)
         }
     }
-
-    //Ask how to get access to the useState for the value of isPrivate
+    console.log(group);
 
     return (
         <div>
             <NavLink to={`/events`}>
                 Back to Events
             </NavLink>
-            <h1>{event.name}</h1>
-            <img src={imageDisplay(event.EventImages)}/>
-            <p>Hosted by {session.user.firstName} {session.user.lastName}</p>
-            <p>{eventsGroup.name} { }</p>
-            <p>Start {formattedDateTime(event.startDate)}</p>
-            <p>End {formattedDateTime(event.endDate)}</p>
-            <p>${event.price}</p>
-            <p>{event.type}</p>
-            <h2>Details</h2>
-            <p>{event.description}</p>
-            <button onClick={handleDelete}>
-                Delete Event
-            </button>
+            <div>
+                <img src={imageDisplay(eventsGroup.GroupImages)}/>
+                <h3>{eventsGroup.name}</h3>
+                <p>{eventsGroup.private ? "Private" : "Public"}</p>
+            </div>
+            <div>
+                <h1>{event.name}</h1>
+                <img src={imageDisplay(event.EventImages)} />
+                <p>Hosted by {session.user.firstName} {session.user.lastName}</p>
+                <p>{eventsGroup.name} { }</p>
+                <p>Start {formattedDateTime(event.startDate)}</p>
+                <p>End {formattedDateTime(event.endDate)}</p>
+                <p>${event.price}</p>
+                <p>{event.type}</p>
+                <h2>Details</h2>
+                <p>{event.description}</p>
+                <button onClick={handleDelete}>
+                    Delete Event
+                </button>
+            </div>
         </div>
     )
 }
