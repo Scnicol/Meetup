@@ -50,7 +50,7 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
             name,
             about,
             type,
-            isPrivate,
+            private: isPrivate,
             city,
             state,
             imageUrl,

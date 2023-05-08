@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import './index.css';
 import { Helmet } from 'react-helmet';
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";

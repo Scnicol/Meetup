@@ -42,20 +42,20 @@ const GroupDetail = () => {
         if (user.id === group.Organizer.id) {
             return (
                 <div>
-                    <button onClick={() => history.push(`/groups/${groupId}/events/new`)}>
+                    <button className='secondary' onClick={() => history.push(`/groups/${groupId}/events/new`)}>
                         Create Event
                     </button>
-                    <button onClick={() => history.push(`/groups/${groupId}/edit`)}>
+                    <button className='secondary' onClick={() => history.push(`/groups/${groupId}/edit`)}>
                         Update
                     </button>
-                    <button onClick={handleDelete}>
+                    <button className='secondary' onClick={handleDelete}>
                         Delete
                     </button>
                 </div>
             );
         }
         return (
-            <button onClick={() => alert("Feature Coming Soon...")}>Join this Group</button>
+            <button className='main' onClick={() => alert("Feature Coming Soon...")}>Join this Group</button>
         );
     }
 
@@ -65,7 +65,7 @@ const GroupDetail = () => {
                 {"<groups"}
             </NavLink>
             <div>
-                <img src="img.png" />
+                <img src={group.previewImage?.[0]?.url ?? "img.png"} />
 
                 <h2>
                     Group Name: {group.name}

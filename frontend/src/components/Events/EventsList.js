@@ -27,6 +27,8 @@ function EventsList({ events }) {
                         <NavLink to={`/events/${parseInt(event.id)}`}>
                             <h3>{event.name}</h3>
                         </NavLink>
+                        <img
+                        src={event.EventImages?.[0]?.url ?? "img.png"}/>
                         <p>{event.startDate}</p>
                         <p>{event.Venue.city}, {event.Venue.state}</p>
                         <p>{event.description}</p>
@@ -38,9 +40,9 @@ function EventsList({ events }) {
 
     return (
         <div>
-            <h2>{upcomingEventsArr.length ? 'Upcoming Events' : 'No Upcoming Events'}</h2>
+            <h2>{upcomingEventsArr.length ? `Upcoming Events (${upcomingEventsArr.length})`  : 'No Upcoming Events'}</h2>
             <EventsSection events={upcomingEventsArr} />
-            <h2>{pastEventsArr.length ? 'Past Events' : 'No Past Events'}</h2>
+            <h2>{pastEventsArr.length ? `Past Events (${pastEventsArr.length})` : 'No Past Events'}</h2>
             <EventsSection events={pastEventsArr} />
         </div>
     )

@@ -2,3 +2,13 @@
 .errors {
     color: red;
   }
+
+button.main {
+  color: white;
+  background: red;
+}
+
+button.secondary {
+  color: white;
+  background: rgb(90, 88, 88);
+}
