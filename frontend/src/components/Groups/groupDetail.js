@@ -15,7 +15,6 @@ const GroupDetail = () => {
     const user = useSelector(state => state.session.user)
     const events = Object.values(useSelector(state => { return state.events }));
     const groupEvents = events.filter(event => event.groupId == groupId);
-    //take the events that we want by the groupId being provided by the params and then map over those events
 
     useEffect(() => {
         dispatch(getEventsByGroupId(groupId));
@@ -26,23 +25,6 @@ const GroupDetail = () => {
     if (!group || !group.name || !group.Organizer) {
         return null;
     }
-
-    //Arrays for past and future events
-    let pastEventsArr = [];
-    let upcomingEventsArr = [];
-
-
-
-    //Sorting Event by Date
-    const sortedEventsbyDate = groupEvents.sort((a, b) => {
-        return new Date(b.startDate) - new Date(a.startDate)
-    });
-
-    const currentDate = new Date();
-    sortedEventsbyDate.forEach((event) => {
-        if (new Date(event.startDate) < currentDate) pastEventsArr.push(event)
-        else upcomingEventsArr.push(event)
-    });
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -98,10 +80,7 @@ const GroupDetail = () => {
                 <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
                 <h2>What we're about</h2>
                 <p>{group.about}</p>
-                <h2>{upcomingEventsArr.length ? 'Upcoming Events' : 'No Upcoming Events'}</h2>
-                <EventsList events={upcomingEventsArr}/>
-                <h2>{pastEventsArr.length ? 'Past Events' : 'No Past Events'}</h2>
-                <EventsList events={pastEventsArr}/>
+                <EventsList events={groupEvents}/>
             </div>
         </div>
     )
