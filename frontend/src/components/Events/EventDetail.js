@@ -12,28 +12,18 @@ const EventDetails = () => {
     const { eventId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const events = Object.values(useSelector(state => state.events));
-    const session = useSelector(state => state.session)
-    const groups = Object.values(useSelector(state => state.groups))
-
-    const filteredEvent = events.filter(event => event.id == eventId);
-    const event = filteredEvent[0];
-
-
-    //Ask if there is a better way of doing this, it seems like a lot of code for just finding the group the event belongs to
+    const event = useSelector(state => state.events[eventId]);
+    const session = useSelector(state => state.session);
+    const group = useSelector(state => state.groups[event?.groupId]);
 
     useEffect(() => {
         dispatch(getEventDetails(eventId));
         dispatch(getGroups())
     }, [dispatch]);
 
-    if (events.length == 0 || groups.length == 0 || !event) return (
+    if (!event || !group) return (
         <h1>No Events</h1>
     );
-
-    const groupId = event.groupId;
-    const group = groups.filter(group => group.id == groupId)
-    const eventsGroup = group[0];
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -42,7 +32,7 @@ const EventDetails = () => {
         event = await dispatch(deleteEvent(eventId));
 
         if (event) {
-            history.push(`/groups/${groupId}`)
+            history.push(`/groups/${event.groupId}`)
         }
     }
     console.log(group);
@@ -53,15 +43,14 @@ const EventDetails = () => {
                 Back to Events
             </NavLink>
             <div>
-                <img src={imageDisplay(eventsGroup.GroupImages)}/>
-                <h3>{eventsGroup.name}</h3>
-                <p>{eventsGroup.private ? "Private" : "Public"}</p>
+                <img src={imageDisplay(group.GroupImages)}/>
+                <h3>{group.name}</h3>
+                <p>{group.private ? "Private" : "Public"}</p>
             </div>
             <div>
                 <h1>{event.name}</h1>
                 <img src={imageDisplay(event.EventImages)} />
                 <p>Hosted by {session.user.firstName} {session.user.lastName}</p>
-                <p>{eventsGroup.name} { }</p>
                 <p>Start {formattedDateTime(event.startDate)}</p>
                 <p>End {formattedDateTime(event.endDate)}</p>
                 <p>${event.price}</p>
