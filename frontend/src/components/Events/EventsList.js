@@ -23,7 +23,7 @@ function EventsList({ events }) {
         return (
             <ul>
                 {events.map((event) => (
-                    <div>
+                    <div key={event.id}>
                         <NavLink to={`/events/${parseInt(event.id)}`}>
                             <h3>{event.name}</h3>
                         </NavLink>

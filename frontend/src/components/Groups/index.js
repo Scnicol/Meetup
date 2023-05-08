@@ -3,14 +3,18 @@ import { getGroups } from '../../store/groups';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { getEvents } from '../../store/events';
 
 function Groups() {
     //Going to add a delete group dispatch here for specific group
 
     const dispatch = useDispatch();
-    const { groupId } = useParams();
+
     const groups = Object.values(useSelector(state => { return state.groups }));
+    const events = Object.values(useSelector(state => state.events));
+
     useEffect(() => {
+        dispatch(getEvents());
         dispatch(getGroups());
     }, [dispatch]);
 
@@ -34,29 +38,33 @@ function Groups() {
             </NavLink>
             <h1>Groups in Meetup</h1>
             <ul>
-                {groups.map((group) => (
+                {groups.map((group) => {
 
-                    <NavLink to={`/groups/${group.id}`} key={group.id}>
-                        <div>
-                            <h2>
-                                Name: {group.name}
-                            </h2>
-                            <img
-                                src={group.previewImage?.[0]?.url ?? "img.png"}
-                            />
-                            <h3>
-                                {group.city}, {group.state}
-                            </h3>
-                            <p>
-                                About: {group.about}
-                            </p>
-                            <h3>
-                                ## Events · {group.private ? 'Private' : 'Public'}
-                            </h3>
-                        </div>
-                        <hr/>
-                    </NavLink>
-                ))}
+                    const groupEvents = events.filter(event => event.Group.id == group.id);
+
+                    return (
+                        <NavLink to={`/groups/${group.id}`} key={group.id}>
+                            <div>
+                                <h2>
+                                    Name: {group.name}
+                                </h2>
+                                <img
+                                    src={group.previewImage?.[0]?.url ?? "img.png"}
+                                />
+                                <h3>
+                                    {group.city}, {group.state}
+                                </h3>
+                                <p>
+                                    About: {group.about}
+                                </p>
+                                <h3>
+                                    {groupEvents.length} Events · {group.private ? 'Private' : 'Public'}
+                                </h3>
+                            </div>
+                            <hr />
+                        </NavLink>
+                    )
+                })}
 
             </ul>
         </main>
