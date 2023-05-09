@@ -14,20 +14,24 @@ const HomePage = () => {
             </h2>
             <p>Intro Text</p>
             <img
-            src="Img.png"/>
+            src="https://cdn.icon-icons.com/icons2/1055/PNG/128/7-percent-cat_icon-icons.com_76683.png"/>
             <h3>
                 How Meetup works
             </h3>
             <p>how it works here</p>
             <NavLink to={`/groups`}>
+                <img src='https://cdn.icon-icons.com/icons2/1055/PNG/128/4-review-cat_icon-icons.com_76680.png'/>
                 See all groups
             </NavLink>
             <NavLink to={`/events`}>
+            <img src='https://cdn.icon-icons.com/icons2/1055/PNG/128/3-search-cat_icon-icons.com_76679.png'/>
                 Find an event
             </NavLink>
-           <NavLink to={`/groups/new`} disabled={!user}>Start a Group</NavLink>
+           <NavLink to={`/groups/new`} disabled={!user}>
+           <img src='https://cdn.icon-icons.com/icons2/1055/PNG/128/6-phone-cat_icon-icons.com_76682.png'/>
+            Start a Group</NavLink>
            {/* Todo: What is this Join Meetup button supposed to do */}
-           <button>Join Meetup</button>
+           <button className='main'>Join Meetup</button>
         </main>
     )
 }

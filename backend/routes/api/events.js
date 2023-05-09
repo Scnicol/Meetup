@@ -282,7 +282,7 @@ router.get('/', async (req, res, next) => {
     let groupId = events[i].dataValues.groupId;
     const members = await Membership.findAll({
         where: {
-            groupId
+            groupId,
         }
     })
 
@@ -291,7 +291,8 @@ router.get('/', async (req, res, next) => {
     let images = await EventImage.findAll({
         attributes: ['url'],
         where: {
-            id: eventId
+            eventId,
+            preview: true,
         }
     })
 

@@ -17,14 +17,15 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
     const [location, setLocation] = useState(spot);
     const [imageUrl, setImageUrl] = useState('');
 
-    const [errors, setErrors] = useState({ name: [], about: [] });
+    const [errors, setErrors] = useState({ name: [], about: [], imageUrl: [] });
 
     useEffect(() => {
-        const validationErrors = { name: [], about: [] };
+        const validationErrors = { name: [], about: [], imageUrl: [] };
         if (name.length === 0) validationErrors.name.push('Name field is required');
         if (about.length < 30) validationErrors.about.push('Description needs 30 or more characters');
+        if (imageUrl.length < 5) validationErrors.imageUrl.push('Please provide an Image URL');
         setErrors(validationErrors);
-    }, [name, about]);
+    }, [name, about, imageUrl]);
 
 
     const updateName = (e) => setName(e.target.value);
@@ -142,8 +143,13 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
                     placeholder="Image URL"
                     value={imageUrl}
                     onChange={updateImageUrl} />
+                    <ul className='errors'>
+                    {errors.imageUrl.map((error) => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </ul>
                 <h2>
-                    <button type="submit" disabled={errors.name.length > 0 || errors.about.length > 0}>{formSubmit} Group</button>
+                    <button type="submit" disabled={errors.name.length > 0 || errors.about.length > 0 || errors.imageUrl.length > 0}>{formSubmit} Group</button>
                 </h2>
             </form>
         </>

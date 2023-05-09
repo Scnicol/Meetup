@@ -29,7 +29,7 @@ function EventsList({ events }) {
                         <NavLink to={`/events/${parseInt(event.id)}`}>
                             <h3>{event.name}</h3>
                             <img
-                                src={imageDisplay(event.EventImages)} />
+                                src={imageDisplay(event.previewImage)} />
                             <p>{formattedDateTime(event.startDate)}</p>
                             <p>{event.Venue.city}, {event.Venue.state}</p>
                             <p>{event.description}</p>

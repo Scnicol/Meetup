@@ -68,11 +68,11 @@ export const createGroup = (payload, imageUrl) => async dispatch => {
         dispatch(newGroup(group));
 
         if (imageUrl) {
-            const url = {url: imageUrl};
+            const image = {url: imageUrl, preview: true};
             await csrfFetch(`/api/groups/${group.id}/images`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(url)
+                body: JSON.stringify(image)
             });
         }
 

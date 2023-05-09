@@ -362,9 +362,10 @@ router.get('/:groupId/events', async (req, res, next) => {
         let images = await EventImage.findAll({
             attributes: ['url'],
             where: {
-                id: eventId
+                eventId,
+                preview: true,
             }
-        })
+        });
 
         let group = await Group.findByPk(groupId, {
             attributes: ['id', 'name', 'city', 'state']
