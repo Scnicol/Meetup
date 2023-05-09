@@ -13,24 +13,24 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <li>
+      <div>
         <ProfileButton user={sessionUser} />
-      </li>
+      </div>
     );
   } else {
     sessionLinks = (
-      <li>
+      <div>
         <OpenModalButton buttonText="Log In" modalComponent={<LoginFormModal />} />
         <OpenModalButton buttonText="Sign up" modalComponent={<SignupFormModal/>} />
-      </li>
+      </div>
     );
   }
 
   return (
-    <ul>
+    <div>
       <NavLink exact to="/"><img src='https://cdn.icon-icons.com/icons2/1055/PNG/128/7-percent-cat_icon-icons.com_76683.png' /></NavLink>
       {isLoaded && sessionLinks}
-    </ul>
+    </div>
   );
 }
 
