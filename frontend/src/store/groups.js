@@ -56,7 +56,6 @@ export const getGroupDetails = (groupId) => async (dispatch) => {
 
 export const createGroup = (payload, imageUrl) => async dispatch => {
 
-    console.log(payload, imageUrl)
     const response = await csrfFetch(`/api/groups`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -141,7 +140,7 @@ const groupReducer = (state = initialState, action) => {
             return newState;
         //Todo: refactor code to fit with create_group because they are the same
         case GET_GROUP:
-            newState = { ...state, [action.group.id]: action.group }
+            newState = { ...state, [action.group.id]: {...state[action.group.id], ...action.group} }
             return newState;
         case DELETE_GROUP:
             newState = { ...state };
