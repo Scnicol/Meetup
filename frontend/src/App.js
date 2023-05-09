@@ -3,8 +3,6 @@ import './index.css';
 import { Helmet } from 'react-helmet';
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import LoginFormPage from "./components/LoginFormPage";
-import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import Groups from "./components/Groups";
@@ -36,12 +34,6 @@ function App() {
         <Switch>
           <Route exact path="/">
             <HomePage />
-          </Route>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
           </Route>
           <Route exact path="/groups">
             <Groups />
