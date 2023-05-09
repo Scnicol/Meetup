@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createGroup } from '../../store/groups';
+import { getGroupDetails } from '../../store/groups';
 
 
 function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
@@ -15,16 +15,16 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
     let spot;
     if (group.city && group.state) { spot = `${group.city}, ${group.state}` }
     const [location, setLocation] = useState(spot);
-    //todo update the useState with the current groups Image url
     const [imageUrl, setImageUrl] = useState('');
 
     const [errors, setErrors] = useState({ name: [], about: [] });
+
     useEffect(() => {
         const validationErrors = { name: [], about: [] };
         if (name.length === 0) validationErrors.name.push('Name field is required');
         if (about.length < 30) validationErrors.about.push('Description needs 30 or more characters');
         setErrors(validationErrors);
-    }, [name, about])
+    }, [name, about]);
 
 
     const updateName = (e) => setName(e.target.value);
@@ -53,19 +53,17 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
             private: isPrivate,
             city,
             state,
-            imageUrl,
         };
-
+        console.log(imageUrl, "Image URL!!")
 
         let submittedGroup;
-        submittedGroup = await dispatch(submitAction(payload));
+        submittedGroup = await dispatch(submitAction(payload, imageUrl));
 
         if (submittedGroup) {
-            history.push(`/groups/${group.id}`);
-            hideForm();
+            await dispatch(getGroupDetails(submittedGroup.id))
+            history.push(`/groups/${submittedGroup.id}`);
         }
     };
-    console.log(formTitle, organizerId, group.organizerId)
 
     if (formTitle == 'Update your' && organizerId !== group.organizerId) history.push(`/`);
 

@@ -54,19 +54,34 @@ export const getGroupDetails = (groupId) => async (dispatch) => {
     }
 }
 
-export const createGroup = (payload) => async dispatch => {
+export const createGroup = (payload, imageUrl) => async dispatch => {
 
+    console.log(payload, imageUrl)
     const response = await csrfFetch(`/api/groups`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     });
 
+    let group;
     if (response.ok) {
-        const group = await response.json();
+        group = await response.json();
         dispatch(newGroup(group));
+
+        if (imageUrl) {
+            const url = {url: imageUrl};
+            await csrfFetch(`/api/groups/${group.id}/images`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(url)
+            });
+        }
+
         return group;
     }
+
+
+
 }
 
 export const updateGroup = (data) => async dispatch => {
@@ -112,7 +127,7 @@ const groupReducer = (state = initialState, action) => {
                 ...newState,
                 ...state,
             };
-            //Todo: refactor code to fit with get_group because they are the same
+        //Todo: refactor code to fit with get_group because they are the same
         case CREATE_GROUP:
             newState = { ...state, [action.group.id]: action.group }
             return newState;
@@ -124,7 +139,7 @@ const groupReducer = (state = initialState, action) => {
                 }
             }
             return newState;
-            //Todo: refactor code to fit with create_group because they are the same
+        //Todo: refactor code to fit with create_group because they are the same
         case GET_GROUP:
             newState = { ...state, [action.group.id]: action.group }
             return newState;

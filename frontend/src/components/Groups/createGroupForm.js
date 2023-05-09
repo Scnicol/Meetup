@@ -10,15 +10,14 @@ function CreateGroupForm({ hideForm }) {
         name: '',
         about: '',
         type: 'In person',
-        isPrivate: true,
+        private: true,
         city: '',
         state: '',
         imageUrl: '',
     }
 
-    function submitAction(group) {
-        const newGroup = {...group}
-        return createGroup(newGroup);
+    function submitAction(group, imageUrl) {
+        return createGroup(group, imageUrl);
     }
 
     return (

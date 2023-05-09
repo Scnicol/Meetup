@@ -66,7 +66,7 @@ const GroupDetail = () => {
                 {"<groups"}
             </NavLink>
             <div>
-                <img src={imageDisplay(group.previewImage)} />
+                <img src={imageDisplay(group?.GroupImages)} />
 
                 <h2>
                     Group Name: {group.name}
