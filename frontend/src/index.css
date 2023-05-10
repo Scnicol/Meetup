@@ -12,3 +12,29 @@ button.secondary {
   color: white;
   background: rgb(90, 88, 88);
 }
+
+a:link {
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+
+a[disabled] {
+  pointer-events: none;
+  color: grey
+}
+
+.vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.horizontal-alignment {
+  display: flex;
+}

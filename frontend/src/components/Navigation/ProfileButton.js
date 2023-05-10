@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import OpenModalButton from "../OpenModalButton";
@@ -50,6 +50,8 @@ function ProfileButton({ user }) {
           <>
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
+            <li><NavLink to='/groups'>View Groups</NavLink></li>
+            <li><NavLink to='/events'>View Events</NavLink></li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
