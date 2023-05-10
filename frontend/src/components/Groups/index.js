@@ -5,6 +5,7 @@ import { NavLink, Route, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getEvents } from '../../store/events';
 import { imageDisplay } from '../../helperFunctions';
+import './group.css'
 
 function Groups() {
     //Going to add a delete group dispatch here for specific group
@@ -27,17 +28,19 @@ function Groups() {
 
     return (
         <main>
-            <NavLink to={`/events`} >
+            <div className='horizontal-alignment navigation-links'>
+            <NavLink className='unselected-link' to={`/events`} >
                 <h2>
                     Events
                 </h2>
             </NavLink>
-            <NavLink to={`/groups`}>
+            <NavLink className='selected-link' to={`/groups`}>
                 <h2>
                     Groups
                 </h2>
             </NavLink>
-            <h1>Groups in Meetup</h1>
+            </div>
+            <caption>Groups in Meetup</caption>
             <ul>
                 {groups.map((group) => {
 
@@ -47,7 +50,7 @@ function Groups() {
                         <NavLink to={`/groups/${group.id}`} key={group.id}>
                             <div>
                                 <h2>
-                                    Name: {group.name}
+                                    {group.name}
                                 </h2>
                                 <img
                                     src={imageDisplay(group.previewImage)}
