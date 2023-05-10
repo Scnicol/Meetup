@@ -1,9 +1,14 @@
 
-
 .cat-spacing {
     gap: 70px;
 }
 
 .main-container {
     gap: 60px;
+    padding: 20px;
+}
+
+.intro-section-child {
+    flex-grow: 1;
+    flex-basis: 0;
 }

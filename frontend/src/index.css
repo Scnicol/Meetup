@@ -1,4 +1,11 @@
 /* TODO Add site wide styles */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+html, body, input, textarea, button, select, a {
+  font-family: 'Open Sans';
+  font-size: 16px;
+}
+
 .errors {
     color: red;
   }
@@ -13,8 +20,9 @@ button.secondary {
   background: rgb(90, 88, 88);
 }
 
-a:link {
+a {
   text-decoration: none;
+  color: blue;
 }
 
 a:hover {
@@ -32,6 +40,11 @@ a[disabled] {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+.horizontal-centered {
+  display: flex;
   align-items: center;
 }
 

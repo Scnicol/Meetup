@@ -12,19 +12,19 @@ const HomePage = () => {
     return (
         <main className='vertical-center main-container'>
             <div className="horizontal-alignment">
-                <div>
-                    <h2>
+                <div className='intro-section-child'>
+                    <h1>
                         The people patform- Where interests become friendships
-                    </h2>
+                    </h1>
                     <p>Intro Text</p>
                 </div>
-                <img
+                <img className='intro-section-child'
                     src="https://cdn.icon-icons.com/icons2/1055/PNG/128/7-percent-cat_icon-icons.com_76683.png" />
             </div>
             <div className="vertical-center">
-                <h3>
+                <h2>
                     How Meetup works
-                </h3>
+                </h2>
                 <p>how it works here</p>
             </div>
             <div className="horizontal-alignment cat-spacing" >

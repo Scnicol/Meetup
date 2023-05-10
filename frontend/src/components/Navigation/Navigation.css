@@ -1,3 +1,22 @@
 .hidden {
     display: none;
 }
+
+.nav-container {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cat-image {
+    width: 35px;
+    height: 35px;
+}
+
+.home-button {
+    gap: 6px;
+}
+
+a.home-button {
+    color: rgb(202, 27, 27);
+    text-decoration: none;
+}

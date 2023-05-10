@@ -21,15 +21,21 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <div>
         <OpenModalButton buttonText="Log In" modalComponent={<LoginFormModal />} />
-        <OpenModalButton buttonText="Sign up" modalComponent={<SignupFormModal/>} />
+        <OpenModalButton buttonText="Sign up" modalComponent={<SignupFormModal />} />
       </div>
     );
   }
 
   return (
     <div>
-      <NavLink exact to="/"><img src='https://cdn.icon-icons.com/icons2/1055/PNG/128/7-percent-cat_icon-icons.com_76683.png' /></NavLink>
-      {isLoaded && sessionLinks}
+      <div className="horizontal-alignment nav-container">
+        <NavLink className='horizontal-centered home-button' exact to="/">
+          <img className='cat-image' src='https://cdn.icon-icons.com/icons2/1055/PNG/128/7-percent-cat_icon-icons.com_76683.png' />
+          <h3>Meetup</h3>
+          </NavLink>
+        {isLoaded && sessionLinks}
+      </div>
+      <hr />
     </div>
   );
 }
