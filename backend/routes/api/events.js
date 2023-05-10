@@ -247,8 +247,6 @@ router.get('/:eventId/attendees', async (req, res, next) => {
 router.get('/:eventId', async (req, res, next) => {
     const eventId = parseInt(req.params.eventId);
 
-
-
     const event = await Event.findByPk(eventId, {
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: [
@@ -265,7 +263,15 @@ router.get('/:eventId', async (req, res, next) => {
         return next(err)
     }
 
+    let images = await EventImage.findByPk(eventId, {
+        attributes: ['url'],
+        where: {
+            preview: true,
+        }
+    });
+
     event.dataValues.numAttending = event.Attendees.length;
+    event.dataValues.previewImage = [images]
     delete event.dataValues.Attendees
 
     res.json(event);
@@ -294,7 +300,7 @@ router.get('/', async (req, res, next) => {
             eventId,
             preview: true,
         }
-    })
+    });
 
     let group = await Group.findByPk(groupId, {
         attributes: ['id', 'name', 'city', 'state']

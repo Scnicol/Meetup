@@ -2,3 +2,26 @@ a[disabled] {
     pointer-events: none;
     color: grey
 }
+
+.vertical-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .horizontal-alignment {
+    display: flex;
+  }
+
+.cat-spacing {
+    gap: 70px;
+}
+
+a:hover {
+    color: red;
+}
+
+.main-container {
+    gap: 60px;
+}
