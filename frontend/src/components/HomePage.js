@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './homePage.css';
+import OpenModalButton from './OpenModalButton';
+import SignupFormModal from './SignupFormModal';
 
 import { NavLink, Link, Route, useParams } from 'react-router-dom';
 
@@ -38,10 +40,15 @@ const HomePage = () => {
                     <img src='https://cdn.icon-icons.com/icons2/1055/PNG/128/6-phone-cat_icon-icons.com_76682.png' />
                     Start a Group</NavLink>
             </div>
-            {/* Todo: What is this Join Meetup button supposed to do */}
-            <div>
-                <button className='main'>Join Meetup</button>
-            </div>
+            {!user &&
+                <div>
+                    <OpenModalButton
+                        className={'main'}
+                        buttonText="Join Meetup"
+                        modalComponent={<SignupFormModal />}
+                    />
+                </div>
+            }
         </main>
     )
 }
