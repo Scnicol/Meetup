@@ -20,3 +20,11 @@ a.home-button {
     color: rgb(202, 27, 27);
     text-decoration: none;
 }
+
+.dropdown-position {
+    position: fixed;
+    top: 50px;
+    right: 15px;
+    border: 1.5px solid black;
+    background: rgb(212, 209, 209);
+}
