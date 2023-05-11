@@ -53,6 +53,7 @@ function Groups() {
                                     {group.name}
                                 </h2>
                                 <img
+                                className='image-styling'
                                     src={imageDisplay(group.previewImage)}
                                 />
                                 <h3>
