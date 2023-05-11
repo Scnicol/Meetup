@@ -15,7 +15,7 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
     let spot;
     if (group.city && group.state) { spot = `${group.city}, ${group.state}` }
     const [location, setLocation] = useState(spot);
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrl, setImageUrl] = useState(group.previewImage[0].url);
 
     const [errors, setErrors] = useState({ name: [], about: [], imageUrl: [] });
 
