@@ -19,3 +19,11 @@
     border: 2px black;
 }
 
+.group-links {
+    color: teal;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+  }

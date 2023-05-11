@@ -42,12 +42,12 @@ function Groups() {
             <caption className='horizontal-alignment'>Groups in Meetup</caption>
             <ul>
                 {groups.map((group) => {
-
+                    //TODO when moving from newly created group details page, the image breaks on group index. How to fix!
                     const groupEvents = events.filter(event => event.Group.id == group.id);
 
                     return (
                         <NavLink to={`/groups/${group.id}`} key={group.id}>
-                            <div>
+                            <div className='group-links'>
                                 <h2>
                                     {group.name}
                                 </h2>

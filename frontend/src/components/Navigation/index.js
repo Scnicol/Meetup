@@ -13,8 +13,15 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <div className='dropdown-button'>
-        <ProfileButton user={sessionUser} />
+      <div>
+        <div className='dropdown-button'>
+          <ProfileButton user={sessionUser} />
+        </div>
+        <div>
+          <NavLink className={'new-group-position'} to='/groups/new'>
+            Start a new Group
+          </NavLink>
+        </div>
       </div>
     );
   } else {
@@ -32,10 +39,8 @@ function Navigation({ isLoaded }) {
         <NavLink className='horizontal-centered home-button' exact to="/">
           <img className='cat-image' src='https://cdn.icon-icons.com/icons2/1055/PNG/128/7-percent-cat_icon-icons.com_76683.png' />
           <h3>Meetup</h3>
-          </NavLink>
-          <NavLink className={'new-group-position'} to='/groups/new'>
-            Start a new Group
-          </NavLink>
+        </NavLink>
+
         {isLoaded && sessionLinks}
       </div>
       <hr />
