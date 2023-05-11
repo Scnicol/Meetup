@@ -50,9 +50,9 @@ function EventsList({ events }) {
 
     return (
         <div>
-            <h2>{upcomingEventsArr.length ? `Upcoming Events (${upcomingEventsArr.length})` : 'No Upcoming Events'}</h2>
+            <h3>{upcomingEventsArr.length ? `Upcoming Events (${upcomingEventsArr.length})` : 'No Upcoming Events'}</h3>
             <EventsSection events={upcomingEventsArr} />
-            <h2>{pastEventsArr.length ? `Past Events (${pastEventsArr.length})` : 'No Past Events'}</h2>
+            <h3>{pastEventsArr.length ? `Past Events (${pastEventsArr.length})` : 'No Past Events'}</h3>
             <EventsSection events={pastEventsArr} />
         </div>
     )

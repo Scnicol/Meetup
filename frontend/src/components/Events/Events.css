@@ -6,3 +6,18 @@
 .image-info-spacing {
     gap: 20px;
 }
+
+.navigation-links {
+    gap: 15px;
+}
+
+.selected-link {
+    color: teal;
+    text-decoration: underline;
+    pointer-events: none;
+}
+
+.unselected-link {
+    color: grey;
+    text-decoration: none;
+}

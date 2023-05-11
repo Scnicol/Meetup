@@ -8,7 +8,6 @@ import { imageDisplay } from '../../helperFunctions';
 import './group.css'
 
 function Groups() {
-    //Going to add a delete group dispatch here for specific group
 
     const dispatch = useDispatch();
 
@@ -40,7 +39,7 @@ function Groups() {
                 </h2>
             </NavLink>
             </div>
-            <caption>Groups in Meetup</caption>
+            <caption className='horizontal-alignment'>Groups in Meetup</caption>
             <ul>
                 {groups.map((group) => {
 

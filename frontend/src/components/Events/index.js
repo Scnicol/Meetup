@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Route, useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import EventsList from './EventsList';
+import './Events.css'
 
 
 function Events({ groupId }) {
@@ -22,12 +23,15 @@ function Events({ groupId }) {
 
     return (
         <main>
-            <NavLink to={`/events`} >
-                Events
+            <div className='horizontal-alignment navigation-links'>
+            <NavLink className='selected-link' to={`/events`} >
+                <h2>Events</h2>
             </NavLink>
-            <NavLink to={`/groups`}>
-                Groups
+            <NavLink className='unselected-link' to={`/groups`}>
+                <h2>Groups</h2>
             </NavLink>
+            </div>
+            <caption className='horizontal-alignment'>Events in Meetup</caption>
             <EventsList events={events} />
         </main>
     )

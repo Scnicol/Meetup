@@ -23,8 +23,20 @@ a.home-button {
 
 .dropdown-position {
     position: fixed;
-    top: 50px;
+    top:70px;
     right: 15px;
     border: 1.5px solid black;
     background: rgb(212, 209, 209);
+}
+
+.new-group-position {
+    position: fixed;
+    top: 30px;
+    right: 80px;
+}
+
+.dropdown-button {
+    position: fixed;
+    top: 30px;
+    right: 30px;
 }
