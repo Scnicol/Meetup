@@ -5,6 +5,8 @@ import { getEventDetails } from '../../store/events';
 import { getGroups } from '../../store/groups';
 import { deleteEvent } from '../../store/events';
 import { formattedDateTime, imageDisplay } from '../../helperFunctions';
+import OpenModalButton from '../OpenModalButton';
+import EventDeleteModal from './EventDeleteModal';
 
 
 
@@ -63,10 +65,12 @@ const EventDetails = () => {
                             <p>End {formattedDateTime(event.endDate)}</p>
                             <p>${event.price}</p>
                             <p>{event.type}</p>
-                            <button className='' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
-                            <button className='' onClick={handleDelete}>
-                                Delete Event
-                            </button>
+                            <button className='secondary' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
+                            <OpenModalButton
+                                className='secondary'
+                                buttonText="Delete"
+                                modalComponent={<EventDeleteModal eventId={eventId} />}
+                            />
                         </div>
                     </div>
                     <div>

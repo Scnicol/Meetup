@@ -57,10 +57,10 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
         if (about.length < 30) validationErrors.about.push('Description needs 30 or more characters');
         if (imageUrl?.length === 0) validationErrors.imageUrl.push('Please provide an Image URL');
         if (!city) validationErrors.location.push('Please provide a city');
-        if (!state || state.length < 2) validationErrors.location.push('Please provide a "," and State');
+        if (!state) validationErrors.location.push('Please provide a "," and State');
         setErrors(validationErrors);
 
-        if (validationErrors.name.length > 0 || validationErrors.about.length > 0 || validationErrors.city.length > 0 || validationErrors.state.length > 0) {
+        if (validationErrors.name.length > 0 || validationErrors.location.length > 0 || validationErrors.about.length > 0) {
             return;
         };
 

@@ -21,7 +21,6 @@ function LoginFormModal() {
 
   const loginUser = (credential, password) => {
     console.log(credential, password, "credential and password")
-
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
@@ -67,7 +66,7 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+        <button type="submit" disabled={credential.length == 0 || password.length == 0}>Log In</button>
       </form>
       <button onClick={loginDemoUser}>
         Login as DemoUser

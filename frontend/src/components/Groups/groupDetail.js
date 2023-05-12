@@ -6,6 +6,8 @@ import { getEventsByGroupId } from '../../store/events';
 import Events from '../Events';
 import EventsList from '../Events/EventsList';
 import { imageDisplay } from '../../helperFunctions';
+import OpenModalButton from '../OpenModalButton';
+import GroupDeleteModal from './GroupDeleteModal';
 
 
 const GroupDetail = () => {
@@ -27,17 +29,6 @@ const GroupDetail = () => {
         return null;
     }
 
-    const handleDelete = async (e) => {
-        e.preventDefault();
-
-        let group;
-        group = await dispatch(deleteGroup(groupId));
-
-        if (group) {
-            history.push(`/groups`)
-        }
-    }
-
     function ActionButtons() {
         if (!user) return null;
         if (user.id === group.Organizer.id) {
@@ -49,10 +40,11 @@ const GroupDetail = () => {
                     <button className='secondary' onClick={() => history.push(`/groups/${groupId}/edit`)}>
                         Update
                     </button>
-                    {/*TODO Delete should open a modal which them confirms if you want to delete, not delete the group with this button */}
-                    <button className='secondary' onClick={handleDelete}>
-                        Delete
-                    </button>
+                    <OpenModalButton
+                        className='secondary'
+                        buttonText="Delete"
+                        modalComponent={<GroupDeleteModal groupId={groupId} />}
+                    />
                 </div>
             );
         }
@@ -82,7 +74,7 @@ const GroupDetail = () => {
                 <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
                 <h2>What we're about</h2>
                 <p>{group.about}</p>
-                <EventsList events={groupEvents}/>
+                <EventsList events={groupEvents} />
             </div>
         </div>
     )
