@@ -52,7 +52,7 @@ const EventDetails = () => {
                         <img className='image-styling-detail' src={imageDisplay(event.EventImages)} />
                     </div>
                     <div>
-                        <div className='container-events'>
+                        <div className='container-events info-container'>
                             <div >
                                 <img className='group-image-styling' src={imageDisplay(group.previewImage)} />
                             </div>
@@ -61,7 +61,7 @@ const EventDetails = () => {
                                 <p>{group.private ? "Private" : "Public"}</p>
                             </div>
                         </div>
-                        <div>
+                        <div className='info-container description-styling'>
                             <img className='clock-image' src='https://cdn-icons-png.flaticon.com/512/4305/4305432.png' />
                             <div>
                                 <p>
