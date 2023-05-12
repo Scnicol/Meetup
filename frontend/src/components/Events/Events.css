@@ -28,6 +28,7 @@ a:hover {
   }
 
  .info-container {
+    display: grid;
     background-color: rgb(234, 233, 233);
  }
 
@@ -36,3 +37,26 @@ a:hover {
     height: 20px;
     padding: 5px;
   }
+
+.container-events {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: .5fr;
+    gap: 0px 20px;
+    background-color: rgb(228, 228, 228);
+    grid-template-areas:
+      "Event-Image Event-Name";
+  }
+  .Event-Name { grid-area: Group-Name; }
+  .Event-Image { grid-area: Group-Image; }
+
+  .image-styling-detail {
+    width: 390px;
+    height: 290px;
+    padding: auto;
+}
+
+.group-image-styling {
+    width: 120px;
+    height: 90px;
+}

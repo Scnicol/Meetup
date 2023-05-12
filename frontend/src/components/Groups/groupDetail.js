@@ -8,6 +8,7 @@ import EventsList from '../Events/EventsList';
 import { imageDisplay } from '../../helperFunctions';
 import OpenModalButton from '../OpenModalButton';
 import GroupDeleteModal from './GroupDeleteModal';
+import './group.css';
 
 
 const GroupDetail = () => {
@@ -34,14 +35,14 @@ const GroupDetail = () => {
         if (user.id === group.Organizer.id) {
             return (
                 <div>
-                    <button className='secondary' onClick={() => history.push(`/groups/${groupId}/events/new`)}>
+                    <button className='secondary description-styling' onClick={() => history.push(`/groups/${groupId}/events/new`)}>
                         Create Event
                     </button>
-                    <button className='secondary' onClick={() => history.push(`/groups/${groupId}/edit`)}>
+                    <button className='secondary description-styling' onClick={() => history.push(`/groups/${groupId}/edit`)}>
                         Update
                     </button>
                     <OpenModalButton
-                        className='secondary'
+                        className='secondary description-styling'
                         buttonText="Delete"
                         modalComponent={<GroupDeleteModal groupId={groupId} />}
                     />
@@ -58,22 +59,27 @@ const GroupDetail = () => {
             <NavLink to={`/groups`}>
                 {"<groups"}
             </NavLink>
+            <div className='container'>
+                <div className='Group-Image'>
+                    <img className='image-styling-detail' src={imageDisplay(group?.GroupImages)} />
+                </div>
+                <div className='Group-Name description-styling'>
+                    <h2>
+                        Group Name: {group.name}
+                    </h2>
+                    <p>{group.city}, {group.state}</p>
+                    <p>
+                        {groupEvents.length} Events · {group.private ? 'Private' : 'Public'}
+                    </p>
+                    <p>Organized by: {group.Organizer.firstName} {group.Organizer.lastName}</p>
+                    <ActionButtons />
+                    <h2>Organizer</h2>
+                    <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
+                    <h2>What we're about</h2>
+                    <p>{group.about}</p>
+                </div>
+            </div>
             <div>
-                <img src={imageDisplay(group?.GroupImages)} />
-
-                <h2>
-                    Group Name: {group.name}
-                </h2>
-                <p>{group.city}, {group.state}</p>
-                <p>
-                    {groupEvents.length} Events · {group.private ? 'Private' : 'Public'}
-                </p>
-                <p>Organized by: {group.Organizer.firstName} {group.Organizer.lastName}</p>
-                <ActionButtons />
-                <h2>Organizer</h2>
-                <p>{group.Organizer.firstName} {group.Organizer.lastName}</p>
-                <h2>What we're about</h2>
-                <p>{group.about}</p>
                 <EventsList events={groupEvents} />
             </div>
         </div>

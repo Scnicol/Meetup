@@ -47,22 +47,30 @@ const EventDetails = () => {
             <div>
                 <h1>{event.name}</h1>
                 <caption className='horizontal-alignment'>Hosted by: {session.user.firstName} {session.user.lastName}</caption>
-                <div className='info-container'>
+                <div className='container-events'>
                     <div>
-                        <img src={imageDisplay(event.EventImages)} />
+                        <img className='image-styling-detail' src={imageDisplay(event.EventImages)} />
                     </div>
                     <div>
-                        <div>
-                            <img src={imageDisplay(group.previewImage)} />
-                            <h3>{group.name}</h3>
-                            <p>{group.private ? "Private" : "Public"}</p>
+                        <div className='container-events'>
+                            <div >
+                                <img className='group-image-styling' src={imageDisplay(group.previewImage)} />
+                            </div>
+                            <div>
+                                <h3>{group.name}</h3>
+                                <p>{group.private ? "Private" : "Public"}</p>
+                            </div>
                         </div>
                         <div>
                             <img className='clock-image' src='https://cdn-icons-png.flaticon.com/512/4305/4305432.png' />
-                            <p>
-                                Start {formattedDateTime(event.startDate)}
-                            </p>
-                            <p>End {formattedDateTime(event.endDate)}</p>
+                            <div>
+                                <p>
+                                    Start {formattedDateTime(event.startDate)}
+                                </p>
+                                <p>
+                                    End {formattedDateTime(event.endDate)}
+                                </p>
+                            </div>
                             <p>${event.price}</p>
                             <p>{event.type}</p>
                             <button className='secondary' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
