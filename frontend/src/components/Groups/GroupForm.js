@@ -91,12 +91,13 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
                     placeholder="City, STATE"
                     value={location}
                     onChange={updateLocation} />
-                <h2>
-                <ul className='errors'>
+                    <ul className='errors'>
                     {errors.location.map((error) => (
                         <li key={error}>{error}</li>
                     ))}
                 </ul>
+                <h2>
+
                     What will your group's name be?
                 </h2>
                 <p>
