@@ -30,13 +30,13 @@ a.home-button {
 }
 
 .new-group-position {
-    position: fixed;
-    top: 30px;
+    position: relative;
+    top: -12px;
     right: 80px;
 }
 
 .dropdown-button {
-    position: fixed;
-    top: 30px;
-    right: 30px;
+    position: relative;
+    top: 15px;
+    right: -80px;
 }

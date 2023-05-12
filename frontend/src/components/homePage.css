@@ -13,3 +13,7 @@
     flex-basis: 0;
 }
 
+.main-image {
+    max-width: 100px;
+
+}

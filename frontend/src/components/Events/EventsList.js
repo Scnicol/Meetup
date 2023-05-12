@@ -42,6 +42,7 @@ function EventsList({ events }) {
                                 <p>{event.description}</p>
                             </div>
                         </NavLink>
+                        <hr></hr>
                     </div>
                 ))}
             </ul>

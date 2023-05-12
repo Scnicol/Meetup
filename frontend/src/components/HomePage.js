@@ -18,7 +18,7 @@ const HomePage = () => {
                     </h1>
                     <p>Intro Text</p>
                 </div>
-                <img className='intro-section-child'
+                <img className='intro-section-child main-image'
                     src="https://cdn.icon-icons.com/icons2/1055/PNG/128/7-percent-cat_icon-icons.com_76683.png" />
             </div>
             <div className="vertical-center">

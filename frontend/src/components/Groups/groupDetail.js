@@ -49,6 +49,7 @@ const GroupDetail = () => {
                     <button className='secondary' onClick={() => history.push(`/groups/${groupId}/edit`)}>
                         Update
                     </button>
+                    {/*TODO Delete should open a modal which them confirms if you want to delete, not delete the group with this button */}
                     <button className='secondary' onClick={handleDelete}>
                         Delete
                     </button>

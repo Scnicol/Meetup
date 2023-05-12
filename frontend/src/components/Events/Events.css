@@ -21,3 +21,18 @@
     color: grey;
     text-decoration: none;
 }
+
+a:hover {
+    color: teal;
+    text-decoration: none;
+  }
+
+ .info-container {
+    background-color: rgb(234, 233, 233);
+ }
+
+.clock-image {
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+  }

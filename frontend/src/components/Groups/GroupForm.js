@@ -15,18 +15,9 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
     let spot;
     if (group.city && group.state) { spot = `${group.city}, ${group.state}` }
     const [location, setLocation] = useState(spot);
-    const [imageUrl, setImageUrl] = useState(group.previewImage[0].url);
+    const [imageUrl, setImageUrl] = useState(group.previewImage?.[0].url);
 
-    const [errors, setErrors] = useState({ name: [], about: [], imageUrl: [] });
-
-    useEffect(() => {
-        const validationErrors = { name: [], about: [], imageUrl: [] };
-        if (name.length === 0) validationErrors.name.push('Name field is required');
-        if (about.length < 30) validationErrors.about.push('Description needs 30 or more characters');
-        if (imageUrl.length < 5) validationErrors.imageUrl.push('Please provide an Image URL');
-        setErrors(validationErrors);
-    }, [name, about, imageUrl]);
-
+    const [errors, setErrors] = useState({ name: [], about: [], imageUrl: [], location: []});
 
     const updateName = (e) => setName(e.target.value);
     const updateAbout = (e) => setAbout(e.target.value);
@@ -35,7 +26,11 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
     const updateLocation = (e) => setLocation(e.target.value);
     const updateImageUrl = (e) => setImageUrl(e.target.value);
 
-    const currentUser = useSelector(state => state.session.user)
+    const currentUser = useSelector(state => state.session.user);
+
+
+
+
 
     if (!currentUser) return null;
 
@@ -55,7 +50,19 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
             city,
             state,
         };
-        console.log(imageUrl, "Image URL!!")
+        //TODO add the validations in here to be checked
+
+        const validationErrors = { name: [], about: [], imageUrl: [], location: [] };
+        if (name.length === 0) validationErrors.name.push('Name field is required');
+        if (about.length < 30) validationErrors.about.push('Description needs 30 or more characters');
+        if (imageUrl?.length === 0) validationErrors.imageUrl.push('Please provide an Image URL');
+        if (!city) validationErrors.location.push('Please provide a city');
+        if (!state || state.length < 2) validationErrors.location.push('Please provide a "," and State');
+        setErrors(validationErrors);
+
+        if (validationErrors.name.length > 0 || validationErrors.about.length > 0 || validationErrors.city.length > 0 || validationErrors.state.length > 0) {
+            return;
+        };
 
         let submittedGroup;
         submittedGroup = await dispatch(submitAction(payload, imageUrl));
@@ -85,6 +92,11 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
                     value={location}
                     onChange={updateLocation} />
                 <h2>
+                <ul className='errors'>
+                    {errors.location.map((error) => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </ul>
                     What will your group's name be?
                 </h2>
                 <p>
@@ -149,7 +161,7 @@ function GroupForm({ group, formTitle, formSubmit, submitAction, hideForm }) {
                     ))}
                 </ul>
                 <h2>
-                    <button type="submit" disabled={errors.name.length > 0 || errors.about.length > 0 || errors.imageUrl.length > 0}>{formSubmit} Group</button>
+                    <button type="submit" disabled={name.length == 0 || about.length == 0 || imageUrl?.length == 0}>{formSubmit} Group</button>
                 </h2>
             </form>
         </>
