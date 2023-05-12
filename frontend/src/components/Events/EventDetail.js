@@ -73,9 +73,9 @@ const EventDetails = () => {
                             </div>
                             <p>${event.price}</p>
                             <p>{event.type}</p>
-                            <button className='secondary' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
+                            <button className='secondary description-styling' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
                             <OpenModalButton
-                                className='secondary'
+                                className='secondary description-styling'
                                 buttonText="Delete"
                                 modalComponent={<EventDeleteModal eventId={eventId} />}
                             />
