@@ -35,7 +35,6 @@ function EventsList({ events }) {
                                     <p>{formattedDateTime(event.startDate)}</p>
                                     <h3>{event.name}</h3>
                                     <p>{event.Venue.city}, {event.Venue.state}</p>
-
                                 </div>
                             </div>
                             <div>

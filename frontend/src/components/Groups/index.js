@@ -28,16 +28,16 @@ function Groups() {
     return (
         <main>
             <div className='horizontal-alignment navigation-links'>
-            <NavLink className='unselected-link' to={`/events`} >
-                <h2>
-                    Events
-                </h2>
-            </NavLink>
-            <NavLink className='selected-link' to={`/groups`}>
-                <h2>
-                    Groups
-                </h2>
-            </NavLink>
+                <NavLink className='unselected-link' to={`/events`} >
+                    <h2>
+                        Events
+                    </h2>
+                </NavLink>
+                <NavLink className='selected-link' to={`/groups`}>
+                    <h2>
+                        Groups
+                    </h2>
+                </NavLink>
             </div>
             <caption className='horizontal-alignment'>Groups in Meetup</caption>
             <ul>
@@ -47,23 +47,27 @@ function Groups() {
 
                     return (
                         <NavLink to={`/groups/${group.id}`} key={group.id}>
-                            <div className='group-links'>
-                                <h2>
-                                    {group.name}
-                                </h2>
-                                <img
-                                className='image-styling'
-                                    src={imageDisplay(group.previewImage)}
-                                />
-                                <h3>
-                                    {group.city}, {group.state}
-                                </h3>
-                                <p>
-                                    About: {group.about}
-                                </p>
-                                <h3>
-                                    {groupEvents.length} Events · {group.private ? 'Private' : 'Public'}
-                                </h3>
+                            <div className='group-links container'>
+                                <div>
+                                    <img
+                                        className='image-styling'
+                                        src={imageDisplay(group.previewImage)}
+                                    />
+                                </div>
+                                <div>
+                                    <h2>
+                                        {group.name}
+                                    </h2>
+                                    <caption className='horizontal-alignment'>
+                                        {group.city}, {group.state}
+                                    </caption>
+                                    <p>
+                                        About: {group.about}
+                                    </p>
+                                    <caption className='horizontal-alignment'>
+                                        {groupEvents.length} Events · {group.private ? 'Private' : 'Public'}
+                                    </caption>
+                                </div>
                             </div>
                             <hr />
                         </NavLink>
