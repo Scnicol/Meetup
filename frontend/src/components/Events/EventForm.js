@@ -21,13 +21,6 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
     //______________VALIDATION_ERRORS______________
     const [errors, setErrors] = useState({ name: [], capacity: [], description: [] });
-    useEffect(() => {
-        const validationErrors = { name: [], capacity: [], description: [], };
-        if (name.length === 0) validationErrors.name.push('Name filed is required');
-        if (capacity < 1) validationErrors.capacity.push('Please provide a capacity');
-        if (description.length < 30) validationErrors.description.push('Description needs 30 or more characters');
-        setErrors(validationErrors)
-    }, [name, capacity, description]);
 
 
     const updateName = (e) => setName(e.target.value);
@@ -65,7 +58,16 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
             endDate,
         };
 
-        console.log(payload)
+        //____VALIDATION_ERRORS__________
+        const validationErrors = { name: [], capacity: [], description: [], };
+        if (name.length === 0) validationErrors.name.push('Name field is required');
+        if (capacity < 1) validationErrors.capacity.push('Please provide a capacity');
+        if (description.length < 30) validationErrors.description.push('Description needs 30 or more characters');
+        setErrors(validationErrors)
+
+        if (validationErrors.name.length > 0 || validationErrors.capacity.length > 0 || validationErrors.description.length > 0) {
+            return;
+        }
 
         let event;
         event = await dispatch(submitAction(payload));
@@ -157,7 +159,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
                     ))}
                 </ul>
                 <h2>
-                    <button type="submit" disabled={errors.name.length || errors.capacity.length || errors.description.length}>{formSubmit} Event</button>
+                    <button type="submit" disabled={name.length == 0 || capacity.length == 0 || description.length == 0}>{formSubmit} Event</button>
                 </h2>
             </form>
         </>
