@@ -31,7 +31,7 @@ const EventDetails = () => {
     }, [dispatch]);
 
 
-    if (!event || !group || !user) return (
+    if (!event || !group) return (
         <h1>No Events</h1>
     );
 
