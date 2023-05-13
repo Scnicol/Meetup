@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Event.init({
     groupId: DataTypes.INTEGER,
-    //venueId: DataTypes.INTEGER,
+    venueId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     type: DataTypes.ENUM('Online', 'In person'),

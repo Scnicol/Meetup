@@ -171,6 +171,16 @@ router.post('/', requireAuth, async (req, res, next) => {
         state,
     });
 
+    //Fix for Frontend Creating an Event Later Remove: venueHardcoded
+    const newVenue = await Venue.create({
+        groupId: newGroup.id,
+        address: '873 Mission st',
+        city: 'San Francisco',
+        state: 'CA',
+        lat: '14.3',
+        lng: '78.7',
+    })
+
     res.status(201).json(newGroup);
 });
 
