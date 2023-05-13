@@ -28,7 +28,6 @@ const EventDetails = () => {
 
     useEffect(() => {
         dispatch(getEventDetails(eventId)).then(() => setIsLoading(true));
-        //dispatch(getGroups);
     }, [dispatch]);
 
 
@@ -38,7 +37,7 @@ const EventDetails = () => {
         <h1>No Events</h1>
     );
 
-    console.log(group)
+    console.log(group.GroupImages[0].url)
     return (
         <div>
             <NavLink to={`/events`}>
