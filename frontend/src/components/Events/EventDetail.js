@@ -17,23 +17,21 @@ const EventDetails = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const event = useSelector(state => state.events[eventId]);
-    const session = useSelector(state => state.session);
+    const user = useSelector(state => state.session.user);
     const group = useSelector(state => state.groups[event?.groupId]);
 
     useEffect(() => {
         if (isLoading) {
             dispatch(getGroupDetails(event.groupId))
         }
-    }, [isLoading] )
+    }, [isLoading])
 
     useEffect(() => {
         dispatch(getEventDetails(eventId)).then(() => setIsLoading(true));
     }, [dispatch]);
 
 
-
-
-    if (!event || !group) return (
+    if (!event || !group || !user) return (
         <h1>No Events</h1>
     );
 
@@ -73,13 +71,17 @@ const EventDetails = () => {
                             </div>
                             <p>${event.price}</p>
                             <p>{event.type}</p>
-                            <button className='secondary description-styling' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
-                            <OpenModalButton
-                                className='secondary description-styling'
-                                buttonText="Delete"
-                                modalComponent={<EventDeleteModal eventId={eventId} />}
-                            />
+                            {console.log(user.id,'userId', group.organizerId, "group organizerId")}
+                            { user.id !== group.organizerId ? null : <div>
+                                <button className='secondary description-styling' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
+                                <OpenModalButton
+                                    className='secondary description-styling'
+                                    buttonText="Delete"
+                                    modalComponent={<EventDeleteModal eventId={eventId} />}
+                                />
+                            </div>}
                         </div>
+
                     </div>
                     <div>
                         <h2>Details</h2>
