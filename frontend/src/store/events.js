@@ -120,7 +120,6 @@ const eventReducer = (state = initialState, action) => {
     let newState = {};
     switch (action.type) {
         case LOAD_EVENTS:
-            console.log(action.list, "action list")
             action.list.forEach(event => {
                 newState[event.id] = event;
             });
@@ -143,7 +142,6 @@ const eventReducer = (state = initialState, action) => {
             return newState;
         case GET_EVENTS_BY_GROUPID:
 
-            //ask why I am getting events.Events
             action.events.Events.forEach(event => {
                 newState[event.id] = event;
             });

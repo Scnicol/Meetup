@@ -177,7 +177,7 @@ router.post('/', requireAuth, async (req, res, next) => {
         state,
     });
 
-    console.log(newGroup, 'NewGroup backend')
+    
 
     //Fix for Frontend Creating an Event Later Remove: venueHardcoded
     const newVenue = await Venue.create({
