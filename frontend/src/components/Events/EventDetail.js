@@ -37,7 +37,7 @@ const EventDetails = () => {
         <h1>No Events</h1>
     );
 
-    console.log(group.GroupImages[0].url)
+
     return (
         <div>
             <NavLink to={`/events`}>
@@ -49,7 +49,7 @@ const EventDetails = () => {
                 <caption className='horizontal-alignment'>Hosted by: {group.Organizer.firstName} {group.Organizer.lastName}</caption>
                 <div className='container-events'>
                     <div>
-                        <img className='image-styling-detail' src={imageDisplay(event.EventImages)} />
+                        <img className='image-styling-detail' src={imageDisplay(event.previewImage)} />
                     </div>
                     <div>
                         <div className='container-events info-container'>

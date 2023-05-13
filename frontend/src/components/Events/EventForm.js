@@ -72,7 +72,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
         }
 
         let event;
-        event = await dispatch(submitAction(payload));
+        event = await dispatch(submitAction(payload, imageUrl));
 
         if (event) {
             history.push(`/events/${event.id}`);
