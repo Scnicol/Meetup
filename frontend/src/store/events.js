@@ -120,12 +120,12 @@ const eventReducer = (state = initialState, action) => {
     let newState = {};
     switch (action.type) {
         case LOAD_EVENTS:
+            console.log(action.list, "action list")
             action.list.forEach(event => {
                 newState[event.id] = event;
             });
             return {
                 ...newState,
-                ...state,
             }
         case CREATE_EVENT:
             newState = { ...state, [action.event.id]: action.event }

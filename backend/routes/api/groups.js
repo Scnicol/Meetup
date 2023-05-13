@@ -70,8 +70,10 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
 //Create an Event for a Group specified by its id
 router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     const groupId = parseInt(req.params.groupId);
-    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const { name, type, capacity, price, description, startDate, endDate } = req.body;
     const group = await Group.findByPk(groupId);
+
+    console.log(groupId, "GroupId")
 
     if (!group) {
         const err = new Error("Group couldn't be found");
@@ -79,10 +81,14 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
         return next(err)
     }
 
+    const newVenue = await Venue.findOne( {
+        where: {groupId: groupId}
+    })
+    console.log(newVenue, "New Venue in backend")
 
     const groupEvent = await Event.create({
         groupId,
-        venueId,
+        venueId: newVenue.dataValues.id,
         name,
         type,
         capacity,
@@ -171,9 +177,11 @@ router.post('/', requireAuth, async (req, res, next) => {
         state,
     });
 
+    console.log(newGroup, 'NewGroup backend')
+
     //Fix for Frontend Creating an Event Later Remove: venueHardcoded
     const newVenue = await Venue.create({
-        groupId: newGroup.id,
+        groupId: newGroup.dataValues.id,
         address: '873 Mission st',
         city: 'San Francisco',
         state: 'CA',

@@ -10,7 +10,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [venueId, setVenueId] = useState(1, 2);
+    // const [venueId, setVenueId] = useState(1, 2);
     const [name, setName] = useState(event.name);
     const [type, setType] = useState('');
     const [capacity, setCapacity] = useState('');
@@ -25,7 +25,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
 
     const updateName = (e) => setName(e.target.value);
-    const updateVenueId = (e) => { setVenueId(e.target.value) };
+    // const updateVenueId = (e) => { setVenueId(e.target.value) };
     const updateType = (e) => { setType(e.target.value) };
     const updateCapacity = (e) => setCapacity(e.target.value);
     const updatePrice = (value) => setPrice(value);
@@ -35,12 +35,12 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
     const updateImageUrl = (e) => setImageUrl(e.target.value);
 
     useEffect(() => {
-        dispatch(getVenues(groupId));
+        // dispatch(getVenues(groupId));
         dispatch(getGroupDetails(groupId))
     }, [dispatch])
 
     const currentUser = useSelector(state => state.session.user)
-    const venues = Object.values(useSelector(state => state.venues));
+    // const venues = Object.values(useSelector(state => state.venues));
     const group = useSelector(state => state.groups[groupId]);
 
     if (!currentUser || !group) return null;
@@ -50,7 +50,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
     const handleSubmit = async (e) => {
         e.preventDefault();
         const payload = {
-            venueId,
+            // venueId,
             name,
             type,
             capacity,
@@ -115,14 +115,14 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
                         <li key={error}>{error}</li>
                     ))}
                 </ul>
-                <p>Please select a venue for the event</p>
+                {/* <p>Please select a venue for the event</p>
                 <select
                     value={venueId}
                     onChange={updateVenueId}>
                     {venues.map(venue =>
                         <option key={venue.id} value={venue.id}>{venue.address}</option>
                     )};
-                </select>
+                </select> */}
                 <p>What is the price for your event?</p>
                 <CurrencyInput
                     prefix="$"

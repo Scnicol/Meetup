@@ -11,12 +11,13 @@ import './Events.css'
 function Events({ groupId }) {
     const history = useHistory();
     const dispatch = useDispatch();
-
+    console.log('events.index.js')
     useEffect(() => {
+        console.log('inside the useEffect Get Events dispatch')
         dispatch(getEvents());
     }, [dispatch]);
     const events = Object.values(useSelector(state => { return state.events }));
-
+    
     if (events.length === 0) return (
         null
     );
