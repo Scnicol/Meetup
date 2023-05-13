@@ -5,6 +5,7 @@ import { getEventDetails } from '../../store/events';
 import { getGroups } from '../../store/groups';
 import { deleteEvent } from '../../store/events';
 import { formattedDateTime, imageDisplay } from '../../helperFunctions';
+import { getGroupDetails } from '../../store/groups';
 import OpenModalButton from '../OpenModalButton';
 import EventDeleteModal from './EventDeleteModal';
 
@@ -12,6 +13,7 @@ import EventDeleteModal from './EventDeleteModal';
 
 const EventDetails = () => {
     const { eventId } = useParams();
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const history = useHistory();
     const event = useSelector(state => state.events[eventId]);
@@ -19,25 +21,24 @@ const EventDetails = () => {
     const group = useSelector(state => state.groups[event?.groupId]);
 
     useEffect(() => {
-        dispatch(getEventDetails(eventId));
-        dispatch(getGroups())
+        if (isLoading) {
+            dispatch(getGroupDetails(event.groupId))
+        }
+    }, [isLoading] )
+
+    useEffect(() => {
+        dispatch(getEventDetails(eventId)).then(() => setIsLoading(true));
+        //dispatch(getGroups);
     }, [dispatch]);
+
+
+
 
     if (!event || !group) return (
         <h1>No Events</h1>
     );
 
-    const handleDelete = async (e) => {
-        e.preventDefault();
-
-        let event;
-        event = await dispatch(deleteEvent(eventId));
-
-        if (event) {
-            history.push(`/groups/${event.groupId}`)
-        }
-    }
-
+    console.log(group)
     return (
         <div>
             <NavLink to={`/events`}>
@@ -46,7 +47,7 @@ const EventDetails = () => {
 
             <div>
                 <h1>{event.name}</h1>
-                <caption className='horizontal-alignment'>Hosted by: {session.user.firstName} {session.user.lastName}</caption>
+                <caption className='horizontal-alignment'>Hosted by: {group.Organizer.firstName} {group.Organizer.lastName}</caption>
                 <div className='container-events'>
                     <div>
                         <img className='image-styling-detail' src={imageDisplay(event.EventImages)} />
@@ -54,7 +55,7 @@ const EventDetails = () => {
                     <div>
                         <div className='container-events info-container'>
                             <div >
-                                <img className='group-image-styling' src={imageDisplay(group.previewImage)} />
+                                <img className='group-image-styling' src={imageDisplay(group.GroupImages)} />
                             </div>
                             <div>
                                 <h3>{group.name}</h3>

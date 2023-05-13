@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getVenues } from '../../store/venues';
+import { getGroupDetails } from '../../store/groups';
 import CurrencyInput from 'react-currency-input-field';
 
 
@@ -35,13 +36,14 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
     useEffect(() => {
         dispatch(getVenues(groupId));
+        dispatch(getGroupDetails(groupId))
     }, [dispatch])
 
     const currentUser = useSelector(state => state.session.user)
     const venues = Object.values(useSelector(state => state.venues));
     const group = useSelector(state => state.groups[groupId]);
 
-    if (!currentUser) return null;
+    if (!currentUser || !group) return null;
 
     const organizerId = currentUser.id;
 
