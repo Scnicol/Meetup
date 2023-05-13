@@ -10,7 +10,7 @@ function EventForm({ event, formTitle, formSubmit, submitAction, hideForm, group
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const [venueId, setVenueId] = useState(1);
+    const [venueId, setVenueId] = useState(1, 2);
     const [name, setName] = useState(event.name);
     const [type, setType] = useState('');
     const [capacity, setCapacity] = useState('');
