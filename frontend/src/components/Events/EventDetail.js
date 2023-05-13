@@ -30,7 +30,6 @@ const EventDetails = () => {
         dispatch(getEventDetails(eventId)).then(() => setIsLoading(true));
     }, [dispatch]);
 
-
     if (!event || !group) return (
         <h1>No Events</h1>
     );
@@ -71,8 +70,7 @@ const EventDetails = () => {
                             </div>
                             <p>${event.price}</p>
                             <p>{event.type}</p>
-                            {console.log(user.id,'userId', group.organizerId, "group organizerId")}
-                            { user.id !== group.organizerId ? null : <div>
+                            {user?.id !== group.organizerId ? null : <div>
                                 <button className='secondary description-styling' onClick={(() => alert('Feature coming soon'))}>Update Event</button>
                                 <OpenModalButton
                                     className='secondary description-styling'
