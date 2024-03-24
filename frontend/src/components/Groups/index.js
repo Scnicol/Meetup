@@ -69,7 +69,7 @@ function Groups() {
                                     </caption>
                                 </div>
                             </div>
-                            <hr />
+                            <hr/>
                         </NavLink>
                     )
                 })}

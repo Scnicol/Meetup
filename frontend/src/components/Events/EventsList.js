@@ -4,7 +4,7 @@ import { formattedDateTime, imageDisplay } from '../../helperFunctions';
 import './Events.css'
 
 function EventsList({ events }) {
-    
+
     //Arrays for past and future events
     let pastEventsArr = [];
     let upcomingEventsArr = [];
