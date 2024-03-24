@@ -7,7 +7,8 @@ export const formattedDateTime = (dateString) => {
 
 
 //_____IMAGE_DISPLAY_______
-export const imageDisplay = (images) => {
-    const image = images?.[0]?.url ?? 'image.png';
+export const imageDisplay = (deck) => {
+    const image = deck.cards[0]?.imageUrl ?? 'image.png';
     return image;
 }
+
